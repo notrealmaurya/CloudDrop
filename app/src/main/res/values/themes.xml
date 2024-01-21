@@ -62,9 +62,4 @@
     </style>
 
 
-    <!--  TaskItemStyle-->
-    <style name="TaskItemStyle">
-        <item name="android:background">#FFFFFF</item>
-    </style>
-
 </resources>

@@ -7,15 +7,15 @@
     style="@style/StatusBarLayoutStyle"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".SplashFragment">
+    tools:context=".fragments.SplashFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lotteView"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:lottie_fileName="cloud.json"
         android:layout_gravity="center"
-        android:scaleType="fitXY"
+        android:scaleType="centerInside"
         app:lottie_autoPlay="true"
         app:lottie_loop="true" />
 

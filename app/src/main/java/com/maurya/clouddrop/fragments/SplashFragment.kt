@@ -1,4 +1,4 @@
-package com.maurya.clouddrop
+package com.maurya.clouddrop.fragments
 
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.maurya.clouddrop.R
 import com.maurya.clouddrop.databinding.FragmentSplashBinding
 
 
@@ -36,7 +37,7 @@ class SplashFragment : Fragment() {
             {
                 navController.navigate(R.id.action_splashFragment_to_homeFragment)
 
-            }, 2500
+            }, 2000
         )
     }
 }

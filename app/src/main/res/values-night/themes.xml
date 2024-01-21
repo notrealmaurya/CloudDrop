@@ -54,11 +54,6 @@
     </style>
 
 
-    <!--  TaskItemStyle-->
-    <style name="TaskItemStyle">
-        <item name="android:background">@color/statusBarDark</item>
-    </style>
-
 
 
 </resources>

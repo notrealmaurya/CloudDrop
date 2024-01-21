@@ -51,5 +51,7 @@
 
     <color name="ImageViewAndTextViewColour">#000000</color>
 
+    <color name="UploadBackgroundColour">#FFFFFF</color>
+
 
 </resources>

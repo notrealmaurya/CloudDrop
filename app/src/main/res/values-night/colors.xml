@@ -9,4 +9,7 @@
 
     <color name="ImageViewAndTextViewColour">#EAE7E7</color>
 
+
+    <color name="UploadBackgroundColour">@color/statusBarDark</color>
+
 </resources>
