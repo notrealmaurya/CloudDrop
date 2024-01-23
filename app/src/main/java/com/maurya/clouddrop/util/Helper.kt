@@ -49,9 +49,9 @@ fun showToast(context: Context,message: String) {
 }
 
 
- fun uriToFile(context: Context,uri: Uri): File {
+ fun uriToFile(context: Context, uri: Uri, fileName: String): File {
      val inputStream = context.contentResolver.openInputStream(uri)
-     val file = File(context.cacheDir, "temp_file") // Change to an appropriate file name
+     val file = File(context.cacheDir, fileName) // Change to an appropriate file name
 
      if (inputStream != null) {
          inputStream.use { input ->
@@ -60,7 +60,6 @@ fun showToast(context: Context,message: String) {
              }
          }
      } else {
-         // If inputStream is null, check if the URI is a directory
          val documentFile = DocumentFile.fromSingleUri(context, uri)
          if (documentFile != null && documentFile.isDirectory) {
              throw IOException("Selected item is a directory, not a file")

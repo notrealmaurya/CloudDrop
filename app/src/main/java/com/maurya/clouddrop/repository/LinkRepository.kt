@@ -3,6 +3,7 @@ package com.maurya.clouddrop.repository
 import com.maurya.clouddrop.api.LinksAPI
 import com.maurya.clouddrop.fragments.HomeFragment
 import com.maurya.clouddrop.model.EmailRequest
+import com.maurya.clouddrop.model.ProgressListener
 import com.maurya.clouddrop.model.ProgressRequestBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -15,7 +16,7 @@ class LinkRepository @Inject constructor(
 ) {
 
 
-    suspend fun uploadFile(file: File, progressCallback: (Int) -> Unit): String {
+    suspend fun uploadFile(file: File): String {
         val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
 
         val body = MultipartBody.Part.createFormData("myfile", file.name, requestFile)

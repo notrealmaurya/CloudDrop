@@ -1,12 +1,15 @@
 package com.maurya.clouddrop.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -63,6 +66,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun listeners() {
+
         fragmentHomeBinding.manageYourLinksFileHomeFragment.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_linkFragment)
         }
@@ -103,16 +107,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun handleFileUploadAndLinkGeneration(selectedFile: File) {
+
         lifecycleScope.launch {
             try {
-                linkRepository.uploadFile(selectedFile) { progress ->
-                    fragmentHomeBinding.seekBarHomeFragment.progress = progress
-                }
-
+                linkRepository.uploadFile(selectedFile)
                 fragmentHomeBinding.UploadingDownloadLinkText.text = "Download Link :"
                 fragmentHomeBinding.seekBarHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.VISIBLE
-
 
                 showToast(requireContext(), "File uploaded successfully")
 
@@ -129,15 +130,33 @@ class HomeFragment : Fragment() {
 
         if (requestCode == 123 && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
-                val selectedFile = uriToFile(requireContext(), uri)
-
+                val fileName = getFileNameFromUri(uri)
+                val selectedFile = uriToFile(requireContext(), uri, fileName)
                 handleFileUploadAndLinkGeneration(selectedFile)
-
-
             }
         }
     }
 
+    @SuppressLint("Range")
+    private fun getFileNameFromUri(uri: Uri): String {
+        var result: String? = null
+        if (uri.scheme == "content") {
+            val cursor = requireContext().contentResolver.query(uri, null, null, null, null)
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    result = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.path
+            val cut = result?.lastIndexOf('/')
+            if (cut != -1) {
+                result = result?.substring(cut!! + 1)
+            }
+        }
+        return result ?: "unknown_file"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
