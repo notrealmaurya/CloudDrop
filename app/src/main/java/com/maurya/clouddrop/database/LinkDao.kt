@@ -4,20 +4,21 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.maurya.clouddrop.module.UploadResponse
 
 @Dao
 interface LinkDao {
     @Query("SELECT * FROM linkRecords")
-    fun getAll(): List<DataLink>
+    fun getAll(): List<UploadResponse>
 
     @Insert
-    fun insert(vararg audioRecord: DataLink)
+    fun insert(vararg audioRecord: UploadResponse)
 
     @Delete
-    fun delete(audioRecord: DataLink)
+    fun delete(audioRecord: UploadResponse)
 
     @Delete
-    fun delete(audioRecord: Array<DataLink>)
+    fun delete(audioRecord: Array<UploadResponse>)
 
 
 }

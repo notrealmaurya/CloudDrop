@@ -1,11 +1,10 @@
-package com.maurya.clouddrop.database
+package com.maurya.clouddrop.module
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "linkRecords")
-data class DataLink(
+data class UploadResponse(
     val title: String,
     val link: String,
     val createdAt: String

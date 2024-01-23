@@ -11,8 +11,7 @@ import androidx.navigation.Navigation
 import androidx.room.Room
 import com.maurya.clouddrop.R
 import com.maurya.clouddrop.database.AdapterLinks
-import com.maurya.clouddrop.database.DataLink
-import com.maurya.clouddrop.database.LinkDao
+import com.maurya.clouddrop.module.UploadResponse
 import com.maurya.clouddrop.database.LinkDatabase
 import com.maurya.clouddrop.databinding.FragmentHomeBinding
 import kotlinx.coroutines.GlobalScope
@@ -55,11 +54,11 @@ class HomeFragment : Fragment() {
 
     }
 
-    //save file in Database
+
     private fun saveRecording(fileName: String) {
         val downloadsFolder =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val dtxVoicerecorderFolder = File(downloadsFolder, "dtxVoicerecorder")
+        val dtxVoicerecorderFolder = File(downloadsFolder, "dtxVoiceRecorder")
 
         val newFilePath = File(dtxVoicerecorderFolder, "$fileName.mp3")
 
@@ -68,7 +67,7 @@ class HomeFragment : Fragment() {
         val timeStamp = Date().time.toString()
 
         val record =
-            DataLink(fileName, "", timeStamp)
+            UploadResponse(fileName, "", timeStamp)
 
         GlobalScope.launch {
             db.linkDao().insert(record)

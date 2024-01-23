@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.maurya.clouddrop.databinding.LinkItemBinding
+import com.maurya.clouddrop.module.UploadResponse
 import com.maurya.clouddrop.util.OnItemClickListener
 import com.maurya.clouddrop.util.shareContentWithFallback
 
@@ -18,7 +19,7 @@ import com.maurya.clouddrop.util.shareContentWithFallback
 class AdapterLinks(
     private val context: Context,
     private var listener: OnItemClickListener,
-    private val itemList: MutableList<DataLink> = mutableListOf()
+    private val itemList: MutableList<UploadResponse> = mutableListOf()
 ) : RecyclerView.Adapter<AdapterLinks.LinksHolder>() {
 
 
