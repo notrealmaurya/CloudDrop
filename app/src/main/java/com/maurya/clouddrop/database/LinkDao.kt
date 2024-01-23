@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.maurya.clouddrop.module.UploadResponse
+import com.maurya.clouddrop.model.UploadResponse
 
 @Dao
 interface LinkDao {
@@ -15,7 +15,7 @@ interface LinkDao {
     fun insert(vararg audioRecord: UploadResponse)
 
     @Delete
-    fun delete(audioRecord: UploadResponse)
+    fun delete(audioRecord:UploadResponse)
 
     @Delete
     fun delete(audioRecord: Array<UploadResponse>)

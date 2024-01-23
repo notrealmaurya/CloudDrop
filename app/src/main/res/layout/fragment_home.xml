@@ -111,13 +111,13 @@
             android:layout_below="@id/topLayout"
             android:background="@color/UploadBackgroundColour"
             android:orientation="vertical"
-            android:paddingVertical="10dp"
-            android:visibility="gone">
+            android:paddingVertical="10dp">
 
             <TextView
+                android:id="@+id/UploadingDownloadLinkText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/font_title"
                 android:gravity="start"
@@ -126,15 +126,50 @@
                 android:textColor="@color/ImageViewAndTextViewColour"
                 android:textSize="14sp" />
 
-            <SeekBar
-                android:id="@+id/seekBARPlayerActivity"
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/seekBarHomeFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginVertical="5dp"
-                android:progressTint="#FF4D4D"
-                android:thumbTint="#FFA2A2" />
+                android:indeterminate="false"
+                android:max="100"
+                android:minHeight="50dp"
+                android:progress="1"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/downloadLinkHomeFragment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_title"
+                    android:layout_gravity="center"
+                    android:text="grcvgffcdzsgf"
+                    android:layout_weight="1"
+                    android:textAllCaps="false"
+                    android:textColor="#167AE4"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/linkShareButtonHomeFragment"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:background="@drawable/bg_ripplefactor"
+                    android:padding="5dp"
+                    android:src="@drawable/icon_share" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

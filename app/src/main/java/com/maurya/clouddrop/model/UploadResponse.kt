@@ -1,14 +1,13 @@
-package com.maurya.clouddrop.module
+package com.maurya.clouddrop.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "linkRecords")
 data class UploadResponse(
-    val title: String,
-    val link: String,
-    val createdAt: String
+    val file: String
 ) {
+
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 

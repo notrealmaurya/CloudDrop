@@ -11,7 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.maurya.clouddrop.databinding.LinkItemBinding
-import com.maurya.clouddrop.module.UploadResponse
+import com.maurya.clouddrop.model.UploadRequest
+import com.maurya.clouddrop.model.UploadResponse
 import com.maurya.clouddrop.util.OnItemClickListener
 import com.maurya.clouddrop.util.shareContentWithFallback
 
@@ -19,7 +20,7 @@ import com.maurya.clouddrop.util.shareContentWithFallback
 class AdapterLinks(
     private val context: Context,
     private var listener: OnItemClickListener,
-    private val itemList: MutableList<UploadResponse> = mutableListOf()
+    private val itemList: MutableList<UploadRequest> = mutableListOf()
 ) : RecyclerView.Adapter<AdapterLinks.LinksHolder>() {
 
 
@@ -103,7 +104,6 @@ class AdapterLinks(
                 )
 
             }
-
 
             else -> {
 

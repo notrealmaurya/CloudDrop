@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maurya.clouddrop.databinding.FragmentLinkBinding
 import com.maurya.clouddrop.database.AdapterLinks
+import com.maurya.clouddrop.model.UploadRequest
+import com.maurya.clouddrop.model.UploadResponse
 import com.maurya.clouddrop.util.OnItemClickListener
-import com.maurya.clouddrop.module.UploadResponse
 
 
 class LinkFragment : Fragment(), OnItemClickListener {
@@ -26,7 +27,7 @@ class LinkFragment : Fragment(), OnItemClickListener {
     private lateinit var adapterLink: AdapterLinks
 
     companion object {
-        var linkList: ArrayList<UploadResponse> = arrayListOf()
+        var linkList: ArrayList<UploadRequest> = arrayListOf()
     }
 
     override fun onCreateView(
@@ -47,11 +48,7 @@ class LinkFragment : Fragment(), OnItemClickListener {
 
         navController = Navigation.findNavController(view)
 
-        linkList = arrayListOf(
-            UploadResponse("Link 1", "https://www.example.com/1", "2022-01-21"),
-            UploadResponse("Link 2", "https://www.example.com/2", "2022-01-22"),
-            UploadResponse("Link 3", "https://www.example.com/3", "2022-01-23")
-        )
+        linkList = arrayListOf()
 
         fragmentLinkBinding.recyclerViewLinksFragment.setHasFixedSize(true)
         fragmentLinkBinding.recyclerViewLinksFragment.setItemViewCacheSize(13)

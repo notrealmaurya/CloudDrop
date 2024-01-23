@@ -56,6 +56,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //retrofit
+    implementation (libs.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     //noinspection UseTomlInstead
