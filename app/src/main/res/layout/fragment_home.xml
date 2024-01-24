@@ -74,7 +74,7 @@
                 android:id="@+id/cancelUploadedFile"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="top||end"
+                android:layout_gravity="top|end"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/icon_cancel" />
 
@@ -185,8 +185,8 @@
                 android:text="grcvgffcdzsgf"
                 android:textAllCaps="false"
                 android:textColor="#167AE4"
-                android:visibility="gone"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/linkShareButtonHomeFragment"
@@ -198,8 +198,8 @@
                 android:layout_marginEnd="30dp"
                 android:background="@drawable/bg_ripplefactor"
                 android:padding="5dp"
-                android:visibility="gone"
-                android:src="@drawable/icon_share" />
+                android:src="@drawable/icon_share"
+                android:visibility="gone" />
 
 
         </RelativeLayout>
