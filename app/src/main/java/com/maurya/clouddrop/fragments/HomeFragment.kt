@@ -118,6 +118,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 linkRepository.uploadFile(selectedFile)
+                fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility=View.VISIBLE
                 fragmentHomeBinding.UploadingDownloadLinkText.text = "Download Link :"
                 fragmentHomeBinding.seekBarHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.VISIBLE
@@ -128,6 +129,12 @@ class HomeFragment : Fragment() {
                 showToast(requireContext(), "File uploaded successfully")
 
             } catch (e: Exception) {
+                fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility=View.GONE
+                fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.GONE
+                fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
+                fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
+                fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.VISIBLE
+
                 showToast(requireContext(), "Error uploading file: ${e.message}")
             }
         }
