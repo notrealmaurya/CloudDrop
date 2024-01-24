@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
             navController.navigate(R.id.action_homeFragment_to_linkFragment)
         }
 
-        fragmentHomeBinding.uploadFileHomeFragment.setOnClickListener {
+        fragmentHomeBinding.uploadFileLayoutHomeFragment.setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 type = "*/*"
@@ -104,6 +104,13 @@ class HomeFragment : Fragment() {
             }
         }
 
+
+        fragmentHomeBinding.cancelUploadedFile.setOnClickListener {
+            fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.GONE
+            fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.VISIBLE
+            fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE
+        }
+
     }
 
     private fun handleFileUploadAndLinkGeneration(selectedFile: File) {
@@ -114,6 +121,9 @@ class HomeFragment : Fragment() {
                 fragmentHomeBinding.UploadingDownloadLinkText.text = "Download Link :"
                 fragmentHomeBinding.seekBarHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.VISIBLE
+                fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
+                fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
+                fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.VISIBLE
 
                 showToast(requireContext(), "File uploaded successfully")
 

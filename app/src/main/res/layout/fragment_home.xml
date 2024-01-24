@@ -42,7 +42,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/uploadFileHomeFragment"
+        android:id="@+id/firstCardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/topLayout"
@@ -51,13 +51,45 @@
         android:orientation="vertical"
         app:cardCornerRadius="30dp">
 
+
+        <FrameLayout
+            android:id="@+id/uploadedFileLayoutHomeFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/topLayout"
+            android:background="@color/UploadBackgroundColour"
+            android:orientation="horizontal"
+            android:padding="30dp"
+            android:visibility="gone">
+
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:padding="50dp"
+                android:src="@drawable/icon_uploaded_file" />
+
+            <ImageView
+                android:id="@+id/cancelUploadedFile"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top||end"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/icon_cancel" />
+
+
+        </FrameLayout>
+
         <LinearLayout
+            android:id="@+id/uploadFileLayoutHomeFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/topLayout"
             android:background="@color/UploadBackgroundColour"
             android:orientation="vertical"
-            android:padding="30dp">
+            android:padding="30dp"
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="60dp"
@@ -96,16 +128,16 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/uploadingProgressFileHomeFragment"
+        android:id="@+id/uploadingProgressLayoutFileHomeFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/uploadFileHomeFragment"
+        android:layout_below="@id/firstCardview"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
         app:cardCornerRadius="15dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/topLayout"
@@ -127,51 +159,50 @@
                 android:textSize="14sp" />
 
             <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
                 android:id="@+id/seekBarHomeFragment"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/UploadingDownloadLinkText"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginVertical="5dp"
                 android:indeterminate="false"
                 android:max="100"
                 android:minHeight="50dp"
-                android:progress="1"
-                />
+                android:progress="1" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/downloadLinkHomeFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:layout_below="@id/seekBarHomeFragment"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="40dp"
+                android:layout_toStartOf="@id/linkShareButtonHomeFragment"
+                android:fontFamily="@font/font_title"
+                android:padding="5dp"
+                android:text="grcvgffcdzsgf"
+                android:textAllCaps="false"
+                android:textColor="#167AE4"
+                android:visibility="gone"
+                android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/downloadLinkHomeFragment"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_title"
-                    android:layout_gravity="center"
-                    android:text="grcvgffcdzsgf"
-                    android:layout_weight="1"
-                    android:textAllCaps="false"
-                    android:textColor="#167AE4"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/linkShareButtonHomeFragment"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end"
-                    android:background="@drawable/bg_ripplefactor"
-                    android:padding="5dp"
-                    android:src="@drawable/icon_share" />
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/linkShareButtonHomeFragment"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/seekBarHomeFragment"
+                android:layout_alignParentEnd="true"
+                android:layout_marginVertical="5dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_ripplefactor"
+                android:padding="5dp"
+                android:visibility="gone"
+                android:src="@drawable/icon_share" />
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </androidx.cardview.widget.CardView>
@@ -210,13 +241,10 @@
 
     </androidx.cardview.widget.CardView>
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="40dp"
         android:orientation="vertical"
         android:visibility="gone">
 
