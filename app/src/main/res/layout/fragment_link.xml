@@ -60,6 +60,17 @@
         app:drawableStartCompat="@drawable/icon_warning" />
 
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/addNoteHomeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topLayout"
+        android:scaleType="fitCenter"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="empty_view.json"
+        app:lottie_loop="true" />
+
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -78,16 +89,6 @@
                 android:layout_marginTop="20dp"
                 android:visibility="gone"
                 tools:listitem="@layout/link_item" />
-
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/addNoteHomeFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="empty_view.json"
-                app:lottie_loop="true" />
 
 
         </LinearLayout>
