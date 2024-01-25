@@ -38,6 +38,8 @@ class LinkFragment : Fragment(), OnItemClickListener {
         fragmentLinkBinding = FragmentLinkBinding.inflate(inflater, container, false)
         val view = fragmentLinkBinding.root
 
+        fragmentLinkBinding.midLayout.isSelected = true
+
 
         return view
     }
