@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/LayoutStyle"
     tools:context=".fragments.LinkFragment">
-
 
     <LinearLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/UploadBackgroundColour"
+        android:background="@color/StatusBarColour"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingVertical="15dp">

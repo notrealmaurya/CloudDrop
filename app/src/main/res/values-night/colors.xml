@@ -12,4 +12,6 @@
 
     <color name="UploadBackgroundColour">@color/statusBarDark</color>
 
+    <color name="StatusBarColour">@color/statusBarDark</color>
+
 </resources>

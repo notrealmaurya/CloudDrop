@@ -6,21 +6,24 @@ import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.room.Room
 import com.maurya.clouddrop.R
-import com.maurya.clouddrop.database.AdapterLinks
 import com.maurya.clouddrop.database.LinkDatabase
 import com.maurya.clouddrop.databinding.FragmentHomeBinding
 import com.maurya.clouddrop.model.DataDatabase
@@ -28,11 +31,8 @@ import com.maurya.clouddrop.repository.LinkRepository
 import com.maurya.clouddrop.util.showToast
 import com.maurya.clouddrop.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.Date
 import javax.inject.Inject
@@ -64,6 +64,8 @@ class HomeFragment : Fragment() {
         database = Room.databaseBuilder(
             requireContext(), LinkDatabase::class.java, "linkRecords"
         ).build()
+
+        fragmentHomeBinding.downloadLinkHomeFragment.isSelected = true
 
 
         listeners()
@@ -116,6 +118,50 @@ class HomeFragment : Fragment() {
             fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE
         }
 
+
+        fragmentHomeBinding.menuHomeFragment.setOnClickListener {
+
+            val inflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val popupView = inflater.inflate(R.layout.menu_layout, null)
+
+
+            val wid = LinearLayout.LayoutParams.WRAP_CONTENT
+            val high = LinearLayout.LayoutParams.WRAP_CONTENT
+            val focus = true
+            val popupWindow = PopupWindow(popupView, wid, high, focus)
+
+            popupWindow.showAtLocation(fragmentHomeBinding.root, Gravity.TOP, 150, 400)
+
+            val share = popupView.findViewById<LinearLayout>(R.id.shareLayoutPopUp)
+            val theme = popupView.findViewById<LinearLayout>(R.id.themeLayoutPopUp)
+            val feedback = popupView.findViewById<LinearLayout>(R.id.feedbackLayoutPopUp)
+            val about = popupView.findViewById<LinearLayout>(R.id.aboutLayoutPopUp)
+            val exit = popupView.findViewById<LinearLayout>(R.id.exitLayoutPopUp)
+
+
+            share.setOnClickListener{}
+
+            theme.setOnClickListener {  }
+
+            feedback.setOnClickListener {
+                val websiteUrl =
+                    "https://forms.gle/4gC2XzHDCaio7hUh8"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl))
+                startActivity(intent)
+            }
+
+            about.setOnClickListener {
+                val customDialogFragment = AboutDialogFragment()
+                customDialogFragment.show(childFragmentManager, "CustomDialogFragment")
+            }
+
+
+            exit.setOnClickListener {
+                popupWindow.dismiss()
+            }
+
+
+        }
     }
 
     private fun handleFileUploadAndLinkGeneration(selectedFile: File) {
@@ -146,7 +192,6 @@ class HomeFragment : Fragment() {
                 GlobalScope.launch {
                     database.linkDao().insert(linkSave)
                 }
-
 
             } catch (e: Exception) {
                 fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE

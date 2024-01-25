@@ -5,6 +5,7 @@
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/statusBarDark</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
 
@@ -55,5 +56,9 @@
 
 
 
+    <!-- PopUpWindowStyle-->
+    <style name="PopUpWindowStyle">
+        <item name="android:background">@drawable/bg_popup_window</item>
+    </style>
 
 </resources>

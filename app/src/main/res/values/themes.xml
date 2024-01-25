@@ -4,6 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/statusBarLight</item>
+        <item name="android:windowLightStatusBar">true</item>
 
     </style>
 
@@ -62,4 +63,9 @@
     </style>
 
 
+
+    <!-- PopUpWindowStyle-->
+    <style name="PopUpWindowStyle">
+        <item name="android:background">@drawable/bg_popup_window</item>
+    </style>
 </resources>

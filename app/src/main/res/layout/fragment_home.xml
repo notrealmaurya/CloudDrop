@@ -29,12 +29,14 @@
             android:textSize="40sp" />
 
         <ImageView
-            android:id="@+id/logOutUser"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/menuHomeFragment"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="30dp"
+            android:background="@drawable/bg_ripplefactor"
+            android:padding="5dp"
             android:src="@drawable/icon_user" />
 
 
@@ -134,8 +136,7 @@
         android:layout_below="@id/firstCardview"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
-        android:visibility="gone"
-        android:orientation="vertical"
+        android:visibility="visible"
         app:cardCornerRadius="15dp">
 
         <RelativeLayout
@@ -149,11 +150,11 @@
             <TextView
                 android:id="@+id/UploadingDownloadLinkText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/font_title"
-                android:gravity="start"
+                android:gravity="center_vertical"
                 android:text="Uploading"
                 android:textAllCaps="false"
                 android:textColor="@color/ImageViewAndTextViewColour"
@@ -163,43 +164,44 @@
                 android:id="@+id/seekBarHomeFragment"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_below="@id/UploadingDownloadLinkText"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginVertical="5dp"
                 android:indeterminate="false"
                 android:max="100"
-                android:minHeight="50dp"
                 android:progress="1" />
 
             <TextView
                 android:id="@+id/downloadLinkHomeFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_below="@id/seekBarHomeFragment"
-                android:layout_marginVertical="5dp"
                 android:layout_marginStart="40dp"
                 android:layout_toStartOf="@id/linkShareButtonHomeFragment"
-                android:fontFamily="@font/font_title"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/font_date"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:padding="5dp"
+                android:singleLine="true"
                 android:text="grcvgffcdzsgf"
                 android:textAllCaps="false"
                 android:textColor="#167AE4"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/linkShareButtonHomeFragment"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/seekBarHomeFragment"
                 android:layout_alignParentEnd="true"
-                android:layout_marginVertical="5dp"
                 android:layout_marginEnd="30dp"
                 android:background="@drawable/bg_ripplefactor"
-                android:padding="5dp"
-                android:src="@drawable/icon_share"
-                android:visibility="gone" />
+                android:gravity="center_vertical"
+                android:padding="7dp"
+                android:src="@drawable/icon_share" />
 
 
         </RelativeLayout>

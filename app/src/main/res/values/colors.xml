@@ -41,7 +41,7 @@
     <!--    Light Mode-->
 
     <color name="statusBarDark">#202930</color>
-    <color name="statusBarLight">#D8D1CF</color>
+    <color name="statusBarLight">#E5faff</color>
 
     <color name="dark_black">#181C1F</color>
     <color name="light_black">#202930</color>
@@ -53,5 +53,6 @@
 
     <color name="UploadBackgroundColour">#FFFFFF</color>
 
+    <color name="StatusBarColour">@color/statusBarLight</color>
 
 </resources>
