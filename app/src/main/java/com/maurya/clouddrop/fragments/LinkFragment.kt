@@ -1,11 +1,13 @@
 package com.maurya.clouddrop.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -44,22 +46,10 @@ class LinkFragment : Fragment(), OnItemClickListener {
 
         fragmentLinkBinding.midLayout.isSelected = true
 
-
-        return view
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        navController = Navigation.findNavController(view)
         linkList = arrayListOf()
 
-
-
-        linkList = ArrayList()
         database =
-            Room.databaseBuilder(requireContext(), LinkDatabase::class.java, "audioRecords").build()
+            Room.databaseBuilder(requireContext(), LinkDatabase::class.java, "linkRecords").build()
 
 
         fragmentLinkBinding.recyclerViewLinksFragment.setHasFixedSize(true)
@@ -71,9 +61,18 @@ class LinkFragment : Fragment(), OnItemClickListener {
         adapterLink = AdapterLinks(requireContext(), this, linkList)
         fragmentLinkBinding.recyclerViewLinksFragment.adapter = adapterLink
 
-        if (linkList.isEmpty()) {
-            fragmentLinkBinding.emptyRecyclerViewLinkFragment.visibility = View.VISIBLE
-        }
+
+        updateRecyclerView()
+
+
+        return view
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
 
 
         fragmentLinkBinding.backLinkFragment.setOnClickListener {
@@ -85,13 +84,17 @@ class LinkFragment : Fragment(), OnItemClickListener {
 
     override fun onItemLongClickListener(position: Int) {
         val itemToDelete = linkList[position]
-
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete Item")
             .setMessage("Are you sure you want to delete '${itemToDelete.title}'?")
             .setPositiveButton("Delete") { _, _ ->
-                linkList.removeAt(position)
-                adapterLink.notifyDataSetChanged()
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                    database.linkDao().delete(itemToDelete)
+                    withContext(Dispatchers.Main) {
+                        linkList.removeAt(position)
+                        adapterLink.notifyDataSetChanged()
+                    }
+                }
                 Toast.makeText(
                     requireContext(),
                     "'${itemToDelete.title}' deleted",
@@ -104,13 +107,13 @@ class LinkFragment : Fragment(), OnItemClickListener {
             .show()
     }
 
-
     override fun onResume() {
         super.onResume()
         updateRecyclerView()
     }
 
     private fun updateRecyclerView() {
+
         val twentyFourHoursInMillis = 24 * 60 * 60 * 1000
         val currentTimeMillis = System.currentTimeMillis()
         GlobalScope.launch {
@@ -121,10 +124,12 @@ class LinkFragment : Fragment(), OnItemClickListener {
                 database.linkDao().delete(record)
             }
             linkList.removeAll(itemsToRemove.toSet())
-
             withContext(Dispatchers.Main) {
                 linkList.clear()
                 linkList.addAll(retrievedData)
+                if (linkList.isEmpty()) {
+                    fragmentLinkBinding.emptyRecyclerViewLinkFragment.visibility = View.VISIBLE
+                }
                 adapterLink.notifyDataSetChanged()
             }
         }

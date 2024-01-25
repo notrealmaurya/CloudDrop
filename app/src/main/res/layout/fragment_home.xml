@@ -186,8 +186,7 @@
                 android:text="grcvgffcdzsgf"
                 android:textAllCaps="false"
                 android:textColor="#167AE4"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/linkShareButtonHomeFragment"

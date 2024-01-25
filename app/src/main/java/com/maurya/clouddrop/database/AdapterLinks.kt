@@ -14,6 +14,9 @@ import com.maurya.clouddrop.databinding.LinkItemBinding
 import com.maurya.clouddrop.model.DataDatabase
 import com.maurya.clouddrop.util.OnItemClickListener
 import com.maurya.clouddrop.util.shareContentWithFallback
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class AdapterLinks(
@@ -33,10 +36,12 @@ class AdapterLinks(
         val currentItem = itemList[position]
 
         with(holder) {
+            val simpleDateFormat = SimpleDateFormat("dd MMM yyyy hh:mm a", Locale.getDefault())
+            val formattedDate = simpleDateFormat.format(Date(currentItem.createdAt))
+
             title.text = currentItem.title
             link.text = currentItem.link
-            dateCreated.text = currentItem.createdAt.toString()
-
+            dateCreated.text = formattedDate
 
             sharePopUpOption.visibility = View.GONE
 

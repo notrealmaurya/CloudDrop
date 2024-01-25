@@ -15,9 +15,6 @@ interface LinkDao {
     @Insert
     fun insert(vararg linkRecords: DataDatabase)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(dataList: List<DataDatabase>)
-
     @Delete
     fun delete(linkRecords:DataDatabase)
 

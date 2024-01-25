@@ -10,6 +10,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,8 +28,13 @@ import com.maurya.clouddrop.repository.LinkRepository
 import com.maurya.clouddrop.util.showToast
 import com.maurya.clouddrop.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.Date
 import javax.inject.Inject
 
 
@@ -37,18 +43,14 @@ class HomeFragment : Fragment() {
 
 
     private lateinit var navController: NavController
-    private lateinit var adapterLink: AdapterLinks
     private lateinit var database: LinkDatabase
 
+    private lateinit var fragmentHomeBinding: FragmentHomeBinding
 
-    companion object {
-        lateinit var fragmentHomeBinding: FragmentHomeBinding
-    }
 
     @Inject
     lateinit var linkRepository: LinkRepository
 
-    private lateinit var db: LinkDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,13 +60,24 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = fragmentHomeBinding.root
 
+        database = Room.databaseBuilder(
+            requireContext(), LinkDatabase::class.java, "linkRecords"
+        ).build()
 
-        fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.GONE
+        val currentTimeMillis = System.currentTimeMillis()
+        val currentDateTime = Date(currentTimeMillis)
+
+        val homeList =
+            DataDatabase("Title1", "https://google.com", currentDateTime.time)
+
+        GlobalScope.launch {
+            database.linkDao().insert(homeList)
+            Log.d("MyDatabaseLog", database.linkDao().getAll().count().toString())
+        }
+
+
 
         listeners()
-
-
-
         return view
     }
 
@@ -132,23 +145,18 @@ class HomeFragment : Fragment() {
 
                 showToast(requireContext(), "File uploaded successfully")
 
-
-
                 val currentTimeMillis = System.currentTimeMillis()
+                val currentDateTime = Date(currentTimeMillis)
                 val linkSave =
                     DataDatabase(
                         selectedFile.name,
                         fragmentHomeBinding.downloadLinkHomeFragment.text.toString(),
-                        currentTimeMillis
+                        currentDateTime.time
                     )
 
-                val homeList = arrayListOf(
-                    DataDatabase("Title1", "https://google.com", currentTimeMillis),
-                    DataDatabase("Title2", "https://example.com", currentTimeMillis),
-                    DataDatabase("Title3", "https://sample.com", currentTimeMillis)
-                )
-
-                database.linkDao().insertAll(homeList)
+                GlobalScope.launch {
+                    database.linkDao().insert(linkSave)
+                }
 
 
             } catch (e: Exception) {
@@ -203,9 +211,6 @@ class HomeFragment : Fragment() {
 
         navController = Navigation.findNavController(view)
 
-        db = Room.databaseBuilder(
-            requireContext(), LinkDatabase::class.java, "linkRecords"
-        ).build()
 
     }
 

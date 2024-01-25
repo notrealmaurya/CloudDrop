@@ -9,6 +9,7 @@ data class DataDatabase(
     val link: String,
     val createdAt: Long
 ) {
+
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 }
