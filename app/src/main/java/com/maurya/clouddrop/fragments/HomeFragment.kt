@@ -18,16 +18,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.room.Room
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maurya.clouddrop.R
 import com.maurya.clouddrop.database.LinkDatabase
 import com.maurya.clouddrop.databinding.FragmentHomeBinding
 import com.maurya.clouddrop.model.DataDatabase
 import com.maurya.clouddrop.repository.LinkRepository
+import com.maurya.clouddrop.util.SharedPreferenceHelper
 import com.maurya.clouddrop.util.showToast
 import com.maurya.clouddrop.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,14 +48,17 @@ class HomeFragment : Fragment() {
 
     private lateinit var navController: NavController
     private lateinit var database: LinkDatabase
+    private val themeList = arrayOf("Light Mode", "Dark Mode", "Auto")
 
     companion object {
         lateinit var fragmentHomeBinding: FragmentHomeBinding
     }
 
     @Inject
-    lateinit var linkRepository: LinkRepository
+    lateinit var sharedPreferencesHelper: SharedPreferenceHelper
 
+    @Inject
+    lateinit var linkRepository: LinkRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,11 +68,17 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = fragmentHomeBinding.root
 
+        sharedPreferencesHelper = SharedPreferenceHelper((requireContext()))
+
+
+
+
         database = Room.databaseBuilder(
             requireContext(), LinkDatabase::class.java, "linkRecords"
         ).build()
 
         fragmentHomeBinding.downloadLinkHomeFragment.isSelected = true
+
 
 
         listeners()
@@ -119,31 +132,58 @@ class HomeFragment : Fragment() {
         }
 
 
+
         fragmentHomeBinding.menuHomeFragment.setOnClickListener {
 
-            val inflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val inflater =
+                requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val popupView = inflater.inflate(R.layout.menu_layout, null)
 
-
-            val wid = LinearLayout.LayoutParams.WRAP_CONTENT
-            val high = LinearLayout.LayoutParams.WRAP_CONTENT
-            val focus = true
-            val popupWindow = PopupWindow(popupView, wid, high, focus)
-
-            popupWindow.showAtLocation(fragmentHomeBinding.root, Gravity.TOP, 150, 400)
+            val popupWindow = PopupWindow(
+                popupView,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                true
+            )
+            popupWindow.showAtLocation(fragmentHomeBinding.menuHomeFragment, Gravity.TOP, 150, 400)
 
             val share = popupView.findViewById<LinearLayout>(R.id.shareLayoutPopUp)
-            val theme = popupView.findViewById<LinearLayout>(R.id.themeLayoutPopUp)
             val feedback = popupView.findViewById<LinearLayout>(R.id.feedbackLayoutPopUp)
             val about = popupView.findViewById<LinearLayout>(R.id.aboutLayoutPopUp)
             val exit = popupView.findViewById<LinearLayout>(R.id.exitLayoutPopUp)
+            val themeText = popupView.findViewById<TextView>(R.id.themeTextLayoutPopUp)
+            val theme = popupView.findViewById<LinearLayout>(R.id.themeLayoutPopUp)
+
+            var checkedTheme = sharedPreferencesHelper.theme
+            themeText.text = themeList[sharedPreferencesHelper.theme]
+
+            share.setOnClickListener {}
+
+            theme.setOnClickListener {
+                val dialog = MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Change theme")
+                    .setPositiveButton("Ok") { _, _ ->
+                        sharedPreferencesHelper.theme = checkedTheme
+                        AppCompatDelegate.setDefaultNightMode(sharedPreferencesHelper.themeFlag[checkedTheme])
+                        themeText.text = themeList[sharedPreferencesHelper.theme]
+                    }
+                    .setSingleChoiceItems(themeList, checkedTheme) { _, which ->
+                        checkedTheme = which
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setCancelable(false)
+                    .show()
+                dialog.setOnDismissListener {
+                    dialog.dismiss()
+                }
 
 
-            share.setOnClickListener{}
-
-            theme.setOnClickListener {  }
+            }
 
             feedback.setOnClickListener {
+                popupWindow.dismiss()
                 val websiteUrl =
                     "https://forms.gle/4gC2XzHDCaio7hUh8"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl))
@@ -151,13 +191,14 @@ class HomeFragment : Fragment() {
             }
 
             about.setOnClickListener {
+                popupWindow.dismiss()
                 val customDialogFragment = AboutDialogFragment()
                 customDialogFragment.show(childFragmentManager, "CustomDialogFragment")
             }
 
-
             exit.setOnClickListener {
                 popupWindow.dismiss()
+                requireActivity().finish()
             }
 
 
