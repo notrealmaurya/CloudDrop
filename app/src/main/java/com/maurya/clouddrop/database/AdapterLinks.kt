@@ -39,9 +39,14 @@ class AdapterLinks(
             val simpleDateFormat = SimpleDateFormat("dd MMM yyyy hh:mm a", Locale.getDefault())
             val formattedDate = simpleDateFormat.format(Date(currentItem.createdAt))
 
+
             title.text = currentItem.title
             link.text = currentItem.link
             dateCreated.text = formattedDate
+
+            title.isSelected =true
+            link.isSelected=true
+            dateCreated.isSelected=true
 
             sharePopUpOption.visibility = View.GONE
 
@@ -84,7 +89,7 @@ class AdapterLinks(
     private fun shareContent(appName: String, title: String, link: String, holder: LinksHolder) {
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "$title: $link")
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "File name: $title \n Download Link: $link")
         shareIntent.type = "text/plain"
 
         when (appName) {
@@ -145,9 +150,8 @@ class AdapterLinks(
         val shareMessage = binding.messageShareLinkItem
         val shareCopyLink = binding.copyLinkShareLinkItem
         val shareMore = binding.moreShareLinkItem
-
-
         val root = binding.root
+
 
         init {
             root.setOnLongClickListener(this)

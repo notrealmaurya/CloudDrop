@@ -45,8 +45,9 @@ class HomeFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var database: LinkDatabase
 
-    private lateinit var fragmentHomeBinding: FragmentHomeBinding
-
+    companion object {
+        lateinit var fragmentHomeBinding: FragmentHomeBinding
+    }
 
     @Inject
     lateinit var linkRepository: LinkRepository
@@ -63,18 +64,6 @@ class HomeFragment : Fragment() {
         database = Room.databaseBuilder(
             requireContext(), LinkDatabase::class.java, "linkRecords"
         ).build()
-
-        val currentTimeMillis = System.currentTimeMillis()
-        val currentDateTime = Date(currentTimeMillis)
-
-        val homeList =
-            DataDatabase("Title1", "https://google.com", currentDateTime.time)
-
-        GlobalScope.launch {
-            database.linkDao().insert(homeList)
-            Log.d("MyDatabaseLog", database.linkDao().getAll().count().toString())
-        }
-
 
 
         listeners()

@@ -39,7 +39,6 @@ object AppModule {
 
 
 
-
     @Singleton
     @Provides
     fun providesLinksAPI(retrofitBuilder: Retrofit.Builder, okHttpClient: OkHttpClient)
