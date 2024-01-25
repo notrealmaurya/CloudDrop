@@ -62,7 +62,7 @@
 
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/addNoteHomeFragment"
+        android:id="@+id/emptyRecyclerViewLinkFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/midLayout"
@@ -71,7 +71,9 @@
         android:scaleType="fitCenter"
         app:lottie_autoPlay="true"
         app:lottie_fileName="empty_view.json"
-        app:lottie_loop="true" />
+        app:lottie_loop="true"
+        android:visibility="gone"
+        />
 
 
     <androidx.core.widget.NestedScrollView
@@ -90,7 +92,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:visibility="gone"
                 tools:listitem="@layout/link_item" />
 
 

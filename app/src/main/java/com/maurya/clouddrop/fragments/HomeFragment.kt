@@ -22,6 +22,7 @@ import com.maurya.clouddrop.R
 import com.maurya.clouddrop.database.AdapterLinks
 import com.maurya.clouddrop.database.LinkDatabase
 import com.maurya.clouddrop.databinding.FragmentHomeBinding
+import com.maurya.clouddrop.model.DataDatabase
 import com.maurya.clouddrop.repository.LinkRepository
 import com.maurya.clouddrop.util.showToast
 import com.maurya.clouddrop.util.uriToFile
@@ -37,6 +38,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var navController: NavController
     private lateinit var adapterLink: AdapterLinks
+    private lateinit var database: LinkDatabase
+
 
     companion object {
         lateinit var fragmentHomeBinding: FragmentHomeBinding
@@ -118,7 +121,8 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 linkRepository.uploadFile(selectedFile)
-                fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility=View.VISIBLE
+                fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility =
+                    View.VISIBLE
                 fragmentHomeBinding.UploadingDownloadLinkText.text = "Download Link :"
                 fragmentHomeBinding.seekBarHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.VISIBLE
@@ -128,8 +132,27 @@ class HomeFragment : Fragment() {
 
                 showToast(requireContext(), "File uploaded successfully")
 
+
+
+                val currentTimeMillis = System.currentTimeMillis()
+                val linkSave =
+                    DataDatabase(
+                        selectedFile.name,
+                        fragmentHomeBinding.downloadLinkHomeFragment.text.toString(),
+                        currentTimeMillis
+                    )
+
+                val homeList = arrayListOf(
+                    DataDatabase("Title1", "https://google.com", currentTimeMillis),
+                    DataDatabase("Title2", "https://example.com", currentTimeMillis),
+                    DataDatabase("Title3", "https://sample.com", currentTimeMillis)
+                )
+
+                database.linkDao().insertAll(homeList)
+
+
             } catch (e: Exception) {
-                fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility=View.GONE
+                fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
                 fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE

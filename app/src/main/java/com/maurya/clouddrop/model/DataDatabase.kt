@@ -4,10 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "linkRecords")
-data class UploadRequest(
+data class DataDatabase(
     val title: String,
     val link: String,
-    val createdAt: String
+    val createdAt: Long
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
