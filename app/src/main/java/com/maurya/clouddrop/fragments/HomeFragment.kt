@@ -222,8 +222,9 @@ class HomeFragment : Fragment() {
                 fragmentHomeBinding.seekBarHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.VISIBLE
                 fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
+                fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
-                fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.VISIBLE
+                fragmentHomeBinding.emailLayoutHomeFragment.visibility= View.VISIBLE
 
                 showToast(requireContext(), "File uploaded successfully")
 
@@ -242,10 +243,9 @@ class HomeFragment : Fragment() {
 
             } catch (e: Exception) {
                 fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE
-                fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.GONE
-                fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
-                fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
+                fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.VISIBLE
+                fragmentHomeBinding.emailLayoutHomeFragment.visibility= View.GONE
 
                 showToast(requireContext(), "Error uploading file: ${e.message}")
             }

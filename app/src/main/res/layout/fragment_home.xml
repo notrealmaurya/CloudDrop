@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/LayoutStyle"
@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".fragments.HomeFragment">
-
 
     <LinearLayout
         android:id="@+id/topLayout"
@@ -43,227 +42,283 @@
     </LinearLayout>
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/firstCardview"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/topLayout"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical"
-        app:cardCornerRadius="30dp">
-
-
-        <FrameLayout
-            android:id="@+id/uploadedFileLayoutHomeFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/topLayout"
-            android:background="@color/UploadBackgroundColour"
-            android:orientation="horizontal"
-            android:padding="30dp"
-            android:visibility="gone">
-
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:padding="50dp"
-                android:src="@drawable/icon_uploaded_file" />
-
-            <ImageView
-                android:id="@+id/cancelUploadedFile"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="top|end"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/icon_cancel" />
-
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:id="@+id/uploadFileLayoutHomeFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/topLayout"
-            android:background="@color/UploadBackgroundColour"
-            android:orientation="vertical"
-            android:padding="30dp"
-            android:visibility="visible">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_cloud" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/font_title"
-                android:gravity="center"
-                android:text="Upload a File"
-                android:textAllCaps="false"
-                android:textColor="@color/ImageViewAndTextViewColour"
-                android:textSize="30sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/font_title"
-                android:gravity="center"
-                android:text="Drag and drop or browse to choose a file"
-                android:textAllCaps="false"
-                android:textColor="@color/ImageViewAndTextViewColour"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/uploadingProgressLayoutFileHomeFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/firstCardview"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="10dp"
-        android:visibility="visible"
-        app:cardCornerRadius="15dp">
+        android:layout_height="match_parent">
 
         <RelativeLayout
+            style="@style/LayoutStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/topLayout"
-            android:background="@color/UploadBackgroundColour"
-            android:orientation="vertical"
-            android:paddingVertical="10dp">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/UploadingDownloadLinkText"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="40dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/firstCardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="30dp">
+
+
+                <FrameLayout
+                    android:id="@+id/uploadedFileLayoutHomeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/topLayout"
+                    android:background="@color/UploadBackgroundColour"
+                    android:orientation="horizontal"
+                    android:padding="25dp"
+                    android:visibility="gone">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:src="@drawable/icon_uploaded_file" />
+
+                    <ImageView
+                        android:id="@+id/cancelUploadedFile"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/icon_cancel" />
+
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/uploadFileLayoutHomeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/topLayout"
+                    android:background="@color/UploadBackgroundColour"
+                    android:orientation="vertical"
+                    android:padding="25dp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/icon_cloud" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/font_title"
+                        android:gravity="center"
+                        android:text="Upload a File"
+                        android:textAllCaps="false"
+                        android:textColor="@color/ImageViewAndTextViewColour"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/font_title"
+                        android:gravity="center"
+                        android:text="Drag and drop or browse to choose a file"
+                        android:textAllCaps="false"
+                        android:textColor="@color/ImageViewAndTextViewColour"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/uploadingProgressLayoutFileHomeFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/firstCardview"
+                android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/font_title"
-                android:gravity="center_vertical"
-                android:text="Uploading"
-                android:textAllCaps="false"
-                android:textColor="@color/ImageViewAndTextViewColour"
-                android:textSize="14sp" />
+                android:visibility="visible"
+                app:cardCornerRadius="15dp">
 
-            <ProgressBar
-                android:id="@+id/seekBarHomeFragment"
-                style="?android:attr/progressBarStyleHorizontal"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/topLayout"
+                    android:background="@color/UploadBackgroundColour"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp">
+
+                    <TextView
+                        android:id="@+id/UploadingDownloadLinkText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/font_title"
+                        android:gravity="center_vertical"
+                        android:text="Uploading"
+                        android:textAllCaps="false"
+                        android:textColor="@color/ImageViewAndTextViewColour"
+                        android:textSize="14sp" />
+
+                    <ProgressBar
+                        android:id="@+id/seekBarHomeFragment"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_below="@id/UploadingDownloadLinkText"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginHorizontal="40dp"
+                        android:layout_marginVertical="5dp"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="1" />
+
+                    <TextView
+                        android:id="@+id/downloadLinkHomeFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@id/seekBarHomeFragment"
+                        android:layout_marginStart="40dp"
+                        android:layout_toStartOf="@id/linkShareButtonHomeFragment"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/font_date"
+                        android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:padding="5dp"
+                        android:singleLine="true"
+                        android:text="grcvgffcdzsgf"
+                        android:textAllCaps="false"
+                        android:textColor="#167AE4"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/linkShareButtonHomeFragment"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@id/seekBarHomeFragment"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/bg_ripplefactor"
+                        android:gravity="center_vertical"
+                        android:padding="7dp"
+                        android:src="@drawable/icon_share" />
+
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/emailLayoutHomeFragment"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_below="@id/UploadingDownloadLinkText"
-                android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="40dp"
-                android:layout_marginVertical="5dp"
-                android:indeterminate="false"
-                android:max="100"
-                android:progress="1" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/uploadingProgressLayoutFileHomeFragment"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:visibility="visible"
+                app:cardCornerRadius="15dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/topLayout"
+                    android:background="@color/UploadBackgroundColour"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp">
 
-            <TextView
-                android:id="@+id/downloadLinkHomeFragment"
+                    <TextView
+                        android:id="@+id/txt1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/font_title"
+                        android:text="or Send via e-mail"
+                        android:textAllCaps="false"
+                        android:textColor="@color/ImageViewAndTextViewColour"
+                        android:textSize="12sp" />
+
+                    <EditText
+                        android:id="@+id/emailSignInFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_below="@id/txt1"
+                        android:layout_marginStart="40dp"
+                        android:layout_toStartOf="@id/sendEmailButtonHomeFragment"
+                        android:layout_marginVertical="5dp"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/font_title"
+                        android:hint="your Email"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="textEmailAddress"
+                        android:paddingHorizontal="15dp"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/sendEmailButtonHomeFragment"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_below="@id/txt1"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginVertical="5dp"
+                        android:background="@drawable/bg_ripplefactor"
+                        android:padding="8dp"
+                        android:src="@drawable/icon_send_email"/>
+
+
+                </RelativeLayout>
+
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/manageYourLinksFileHomeFragment"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/seekBarHomeFragment"
-                android:layout_marginStart="40dp"
-                android:layout_toStartOf="@id/linkShareButtonHomeFragment"
-                android:ellipsize="marquee"
-                android:fontFamily="@font/font_date"
-                android:gravity="center_vertical"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:text="grcvgffcdzsgf"
-                android:textAllCaps="false"
-                android:textColor="#167AE4"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emailLayoutHomeFragment"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="30dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="15dp">
 
-            <ImageView
-                android:id="@+id/linkShareButtonHomeFragment"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/seekBarHomeFragment"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/bg_ripplefactor"
-                android:gravity="center_vertical"
-                android:padding="7dp"
-                android:src="@drawable/icon_share" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/UploadBackgroundColour"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/font_title"
+                        android:gravity="start"
+                        android:text="Manage Your Links  ˚❣˚"
+                        android:textAllCaps="false"
+                        android:textColor="@color/ImageViewAndTextViewColour"
+                        android:textSize="22sp" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
 
 
         </RelativeLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/manageYourLinksFileHomeFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"
-        android:orientation="vertical"
-        app:cardCornerRadius="15dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/UploadBackgroundColour"
-            android:orientation="vertical"
-            android:padding="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/font_title"
-                android:gravity="start"
-                android:text="Manage Your Links  ˚❣˚"
-                android:textAllCaps="false"
-                android:textColor="@color/ImageViewAndTextViewColour"
-                android:textSize="22sp" />
-
-        </LinearLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/addNoteHomeFragment"
-            style="@style/AddTaskStyle"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="end"
-            android:layout_margin="8dp"
-            android:elevation="2dp"
-            android:scaleType="fitCenter"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="boo_ghost.json"
-            app:lottie_loop="true" />
-
-    </LinearLayout>
-
-
-</RelativeLayout>
+</LinearLayout>
