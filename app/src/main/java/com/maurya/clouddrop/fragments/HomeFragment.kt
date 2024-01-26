@@ -11,6 +11,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,7 +32,9 @@ import com.maurya.clouddrop.database.LinkDatabase
 import com.maurya.clouddrop.databinding.FragmentHomeBinding
 import com.maurya.clouddrop.model.DataDatabase
 import com.maurya.clouddrop.repository.LinkRepository
+import com.maurya.clouddrop.util.HomeFragmentCallback
 import com.maurya.clouddrop.util.SharedPreferenceHelper
+import com.maurya.clouddrop.util.extractUuidFromLink
 import com.maurya.clouddrop.util.showToast
 import com.maurya.clouddrop.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,22 +47,22 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),HomeFragmentCallback {
+
 
 
     private lateinit var navController: NavController
     private lateinit var database: LinkDatabase
     private val themeList = arrayOf("Light Mode", "Dark Mode", "Auto")
-    private lateinit var fragmentHomeBinding: FragmentHomeBinding
-    fun getMyTextView(): TextView {
-        return fragmentHomeBinding.downloadLinkHomeFragment
-    }
 
     @Inject
     lateinit var sharedPreferencesHelper: SharedPreferenceHelper
 
     @Inject
     lateinit var linkRepository: LinkRepository
+
+    private lateinit var fragmentHomeBinding: FragmentHomeBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,8 +72,6 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = fragmentHomeBinding.root
 
-
-
         sharedPreferencesHelper = SharedPreferenceHelper((requireContext()))
 
         database = Room.databaseBuilder(
@@ -78,12 +79,14 @@ class HomeFragment : Fragment() {
         ).build()
 
         fragmentHomeBinding.downloadLinkHomeFragment.isSelected = true
-
+        fragmentHomeBinding.nestedScrollViewHomeFragment.isSmoothScrollingEnabled = true
 
 
         listeners()
         return view
     }
+
+
 
     private fun listeners() {
 
@@ -209,6 +212,23 @@ class HomeFragment : Fragment() {
 
 
         }
+
+        fragmentHomeBinding.sendEmailButtonHomeFragment.setOnClickListener {
+            val emailFrom = "CloudDrop@dtxloop.com"
+            val emailTo = fragmentHomeBinding.emailTextHomeFragment.text.toString()
+            val fileId =
+                extractUuidFromLink(fragmentHomeBinding.downloadLinkHomeFragment.text.toString())
+
+            lifecycleScope.launch {
+                try {
+                    linkRepository.sendEmail(emailFrom, emailTo, fileId)
+                    showToast(requireContext(), "Email sent successfully to : $emailTo")
+                } catch (e: Exception) {
+                    showToast(requireContext(), "Error sending email: ${e.message}")
+                }
+            }
+        }
+
     }
 
     private fun handleFileUploadAndLinkGeneration(selectedFile: File) {
@@ -224,7 +244,7 @@ class HomeFragment : Fragment() {
                 fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
                 fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
-                fragmentHomeBinding.emailLayoutHomeFragment.visibility= View.VISIBLE
+                fragmentHomeBinding.emailLayoutHomeFragment.visibility = View.VISIBLE
 
                 showToast(requireContext(), "File uploaded successfully")
 
@@ -242,10 +262,11 @@ class HomeFragment : Fragment() {
                 }
 
             } catch (e: Exception) {
+                Log.d("MyLogHome", e.message.toString())
                 fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.GONE
                 fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.VISIBLE
-                fragmentHomeBinding.emailLayoutHomeFragment.visibility= View.GONE
+                fragmentHomeBinding.emailLayoutHomeFragment.visibility = View.GONE
 
                 showToast(requireContext(), "Error uploading file: ${e.message}")
             }
@@ -292,6 +313,12 @@ class HomeFragment : Fragment() {
 
         navController = Navigation.findNavController(view)
 
+
+    }
+
+    override fun updateText(text: String) {
+
+        fragmentHomeBinding.downloadLinkHomeFragment.text=text
 
     }
 

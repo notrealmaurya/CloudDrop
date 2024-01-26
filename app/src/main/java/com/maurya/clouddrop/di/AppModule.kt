@@ -31,7 +31,7 @@ object AppModule {
     fun provideOKHTTPClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY  // Set the desired logging level
+                level = HttpLoggingInterceptor.Level.BODY
             })
             .retryOnConnectionFailure(true)
             .build()

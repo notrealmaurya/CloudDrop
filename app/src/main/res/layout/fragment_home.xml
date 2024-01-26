@@ -43,6 +43,7 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollViewHomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -196,7 +197,7 @@
                         android:text="grcvgffcdzsgf"
                         android:textAllCaps="false"
                         android:textColor="#167AE4"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                     <ImageView
                         android:id="@+id/linkShareButtonHomeFragment"
@@ -226,13 +227,14 @@
                 android:layout_marginTop="10dp"
                 android:visibility="visible"
                 app:cardCornerRadius="15dp">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/topLayout"
                     android:background="@color/UploadBackgroundColour"
                     android:orientation="vertical"
-                    android:paddingVertical="10dp">
+                    android:paddingVertical="15dp">
 
                     <TextView
                         android:id="@+id/txt1"
@@ -243,40 +245,40 @@
                         android:text="or Send via e-mail"
                         android:textAllCaps="false"
                         android:textColor="@color/ImageViewAndTextViewColour"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <EditText
-                        android:id="@+id/emailSignInFragment"
+                        android:id="@+id/emailTextHomeFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="40dp"
                         android:layout_below="@id/txt1"
-                        android:layout_marginStart="40dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
                         android:layout_toStartOf="@id/sendEmailButtonHomeFragment"
-                        android:layout_marginVertical="5dp"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/font_title"
+                        android:gravity="center_vertical"
                         android:hint="your Email"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
                         android:paddingHorizontal="15dp"
-                        android:textSize="13sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:id="@+id/sendEmailButtonHomeFragment"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_below="@id/txt1"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="30dp"
-                        android:layout_marginVertical="5dp"
                         android:background="@drawable/bg_ripplefactor"
-                        android:padding="8dp"
-                        android:src="@drawable/icon_send_email"/>
+                        android:padding="7dp"
+                        android:src="@drawable/icon_send_email" />
 
 
                 </RelativeLayout>
-
 
 
             </androidx.cardview.widget.CardView>
@@ -288,8 +290,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/emailLayoutHomeFragment"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginVertical="30dp"
-                android:orientation="vertical"
+                android:layout_marginVertical="40dp"
                 app:cardCornerRadius="15dp">
 
                 <LinearLayout
