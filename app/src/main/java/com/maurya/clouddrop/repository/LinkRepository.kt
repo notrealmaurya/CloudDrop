@@ -37,7 +37,8 @@ class LinkRepository @Inject constructor(
 
     private fun generateDownloadLink(uuid: String): String {
         val text = "https://fileshare-expressapi.onrender.com/files/$uuid"
-        HomeFragment.fragmentHomeBinding.downloadLinkHomeFragment.text = text
+        val homeFragment = HomeFragment()
+        homeFragment.getMyTextView().text=text
 
         return text
     }

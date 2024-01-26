@@ -38,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
+import java.lang.ref.WeakReference
 import java.util.Date
 import javax.inject.Inject
 
@@ -49,9 +50,9 @@ class HomeFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var database: LinkDatabase
     private val themeList = arrayOf("Light Mode", "Dark Mode", "Auto")
-
-    companion object {
-        lateinit var fragmentHomeBinding: FragmentHomeBinding
+    private lateinit var fragmentHomeBinding: FragmentHomeBinding
+    fun getMyTextView(): TextView {
+        return fragmentHomeBinding.downloadLinkHomeFragment
     }
 
     @Inject
@@ -68,10 +69,9 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = fragmentHomeBinding.root
 
+
+
         sharedPreferencesHelper = SharedPreferenceHelper((requireContext()))
-
-
-
 
         database = Room.databaseBuilder(
             requireContext(), LinkDatabase::class.java, "linkRecords"
@@ -112,7 +112,7 @@ class HomeFragment : Fragment() {
             val textToCopy = fragmentHomeBinding.downloadLinkHomeFragment.text.toString()
             val shareIntent = Intent()
             shareIntent.action = Intent.ACTION_SEND
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Title: $textToCopy")
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Link: $textToCopy")
             shareIntent.type = "text/plain"
 
             try {
@@ -130,7 +130,6 @@ class HomeFragment : Fragment() {
             fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.VISIBLE
             fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE
         }
-
 
 
         fragmentHomeBinding.menuHomeFragment.setOnClickListener {
@@ -157,9 +156,16 @@ class HomeFragment : Fragment() {
             var checkedTheme = sharedPreferencesHelper.theme
             themeText.text = themeList[sharedPreferencesHelper.theme]
 
-            share.setOnClickListener {}
+            share.setOnClickListener {
+                popupWindow.dismiss()
+                val websiteUrl =
+                    "https://github.com/notrealmaurya"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl))
+                startActivity(intent)
+            }
 
             theme.setOnClickListener {
+                popupWindow.dismiss()
                 val dialog = MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Change theme")
                     .setPositiveButton("Ok") { _, _ ->
