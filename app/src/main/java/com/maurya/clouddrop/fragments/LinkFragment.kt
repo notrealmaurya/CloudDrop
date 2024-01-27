@@ -39,7 +39,7 @@ class LinkFragment : Fragment(), OnItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         fragmentLinkBinding = FragmentLinkBinding.inflate(inflater, container, false)
         val view = fragmentLinkBinding.root
@@ -73,7 +73,7 @@ class LinkFragment : Fragment(), OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(view)
-        
+
         fragmentLinkBinding.backLinkFragment.setOnClickListener {
             findNavController().navigateUp()
         }
