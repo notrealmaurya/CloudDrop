@@ -16,18 +16,10 @@ class LinkRepository @Inject constructor(
     interface UploadCallback {
         fun onProgressUpdate(progress: Int)
         fun onUploadComplete(downloadLink: String)
-        fun uploadFileSize()
     }
 
 
     suspend fun uploadFile(file: File, callback: UploadCallback) {
-
-        if (file.length()>=104857600){
-            callback.uploadFileSize()
-            return
-        }
-
-
         val progressRequestBody = ProgressRequestBody(file) { progress ->
             callback.onProgressUpdate(progress)
         }

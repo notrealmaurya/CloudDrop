@@ -20,6 +20,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.lifecycleScope
@@ -60,9 +61,8 @@ class HomeFragment : Fragment() {
     lateinit var linkRepository: LinkRepository
 
 
-    companion object {
-        lateinit var fragmentHomeBinding: FragmentHomeBinding
-    }
+    private lateinit var fragmentHomeBinding: FragmentHomeBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,11 +92,8 @@ class HomeFragment : Fragment() {
         }
 
         fragmentHomeBinding.uploadFileLayoutHomeFragment.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "*/*"
-            }
-            startActivityForResult(intent, 123)
+            getContentLauncher.launch("*/*")
+
         }
 
         fragmentHomeBinding.downloadLinkHomeFragment.setOnClickListener {
@@ -272,10 +269,6 @@ class HomeFragment : Fragment() {
                         showToast(requireContext(), "File uploaded successfully")
                     }
 
-                    override fun uploadFileSize() {
-                        showToast(requireContext(), "File Size should be less than 100MB")
-                        fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility=View.GONE
-                    }
                 })
 
             } catch (e: Exception) {
@@ -290,18 +283,18 @@ class HomeFragment : Fragment() {
     }
 
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 123 && resultCode == Activity.RESULT_OK) {
-            data?.data?.let { uri ->
+    private val getContentLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
                 val fileName = getFileNameFromUri(uri)
                 val selectedFile = uriToFile(requireContext(), uri, fileName)
-                handleFileUploadAndLinkGeneration(selectedFile)
+                if (selectedFile.length() <= 104857600) {
+                    handleFileUploadAndLinkGeneration(selectedFile)
+                } else {
+                    showToast(requireContext(), "File Size should be less than 100MB")
+                }
             }
         }
-    }
 
     @SuppressLint("Range")
     private fun getFileNameFromUri(uri: Uri): String {
