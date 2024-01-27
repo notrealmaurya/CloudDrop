@@ -1,12 +1,11 @@
 package com.maurya.clouddrop.repository
 
+import android.util.Log
 import com.maurya.clouddrop.api.LinksAPI
 import com.maurya.clouddrop.model.EmailRequest
 import com.maurya.clouddrop.util.ProgressRequestBody
 import com.maurya.clouddrop.util.extractUuidFromLink
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -17,25 +16,32 @@ class LinkRepository @Inject constructor(
     interface UploadCallback {
         fun onProgressUpdate(progress: Int)
         fun onUploadComplete(downloadLink: String)
+        fun uploadFileSize()
     }
 
-    suspend fun uploadFile(file: File, callback: UploadCallback) {
-        val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
-        val body = MultipartBody.Part.createFormData("myfile", file.name, requestFile)
 
-        val progressRequestBody = ProgressRequestBody(requestFile) { progress ->
+    suspend fun uploadFile(file: File, callback: UploadCallback) {
+
+        if (file.length()>=104857600){
+            callback.uploadFileSize()
+            return
+        }
+
+
+        val progressRequestBody = ProgressRequestBody(file) { progress ->
             callback.onProgressUpdate(progress)
         }
 
-        val progressParam = MultipartBody.Part.createFormData("progress", "paramValue", progressRequestBody)
+        val filePart = MultipartBody.Part.createFormData("myfile", file.name, progressRequestBody)
 
-        val response = linksAPI.uploadFile(body, progressParam)
+        val response = linksAPI.uploadFile(filePart)
 
         val link = response.body()?.file.orEmpty()
         val uuid = extractUuidFromLink(link)
         generateDownloadLink(uuid, callback)
+        Log.d("MyLinkRepo", link)
+        Log.d("MyLinkRepo", uuid)
     }
-
 
     private fun generateDownloadLink(uuid: String, callback: UploadCallback) {
         val text = "https://fileshare-expressapi.onrender.com/files/$uuid"

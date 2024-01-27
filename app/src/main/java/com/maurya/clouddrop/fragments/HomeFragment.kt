@@ -124,13 +124,15 @@ class HomeFragment : Fragment() {
             }
         }
 
-
         fragmentHomeBinding.cancelUploadedFile.setOnClickListener {
             fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.GONE
             fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.VISIBLE
             fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE
+            fragmentHomeBinding.emailLayoutHomeFragment.visibility = View.GONE
+            fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.VISIBLE
+            fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
+            fragmentHomeBinding.emailTextHomeFragment.text.clear()
         }
-
 
         fragmentHomeBinding.menuHomeFragment.setOnClickListener {
 
@@ -230,9 +232,14 @@ class HomeFragment : Fragment() {
 
     private fun handleFileUploadAndLinkGeneration(selectedFile: File) {
 
+        fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.VISIBLE
+        fragmentHomeBinding.seekBarHomeFragment.visibility = View.VISIBLE
+        fragmentHomeBinding.downloadLinkHomeFragment.text = ""
+        fragmentHomeBinding.UploadingDownloadLinkText.text = "Uploading"
+
+
         lifecycleScope.launch {
             try {
-
                 linkRepository.uploadFile(selectedFile, object : LinkRepository.UploadCallback {
                     override fun onProgressUpdate(progress: Int) {
                         fragmentHomeBinding.seekBarHomeFragment.progress = progress
@@ -241,11 +248,15 @@ class HomeFragment : Fragment() {
                     override fun onUploadComplete(downloadLink: String) {
                         fragmentHomeBinding.UploadingDownloadLinkText.text = "Download Link :"
                         fragmentHomeBinding.downloadLinkHomeFragment.text = downloadLink
-                        fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.GONE
+
+                        fragmentHomeBinding.seekBarHomeFragment.visibility = View.GONE
+                        fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.VISIBLE
+                        fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
                         fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
+                        fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.GONE
+                        fragmentHomeBinding.emailLayoutHomeFragment.visibility = View.VISIBLE
 
 
-                        showToast(requireContext(), "File uploaded successfully")
                         val currentTimeMillis = System.currentTimeMillis()
                         val currentDateTime = Date(currentTimeMillis)
                         val linkSave =
@@ -257,11 +268,21 @@ class HomeFragment : Fragment() {
                         GlobalScope.launch {
                             database.linkDao().insert(linkSave)
                         }
+
+                        showToast(requireContext(), "File uploaded successfully")
+                    }
+
+                    override fun uploadFileSize() {
+                        showToast(requireContext(), "File Size should be less than 100MB")
+                        fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility=View.GONE
                     }
                 })
 
             } catch (e: Exception) {
                 Log.d("MyLogHome", e.message.toString())
+
+                fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE
+                fragmentHomeBinding.emailLayoutHomeFragment.visibility = View.GONE
 
                 showToast(requireContext(), "Error uploading file: ${e.message}")
             }

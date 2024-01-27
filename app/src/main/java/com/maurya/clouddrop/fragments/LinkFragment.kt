@@ -73,8 +73,7 @@ class LinkFragment : Fragment(), OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(view)
-
-
+        
         fragmentLinkBinding.backLinkFragment.setOnClickListener {
             findNavController().navigateUp()
         }

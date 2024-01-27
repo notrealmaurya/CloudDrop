@@ -14,8 +14,7 @@ interface LinksAPI {
 
     @Multipart
     @POST("files/upload")
-    suspend fun uploadFile(@Part file: MultipartBody.Part,
-                           @Part param: MultipartBody.Part): Response<UploadResponse>
+    suspend fun uploadFile(@Part file: MultipartBody.Part): Response<UploadResponse>
 
 
     @POST("files/upload/send")
