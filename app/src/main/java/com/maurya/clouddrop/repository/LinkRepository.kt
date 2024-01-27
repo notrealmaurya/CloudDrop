@@ -28,12 +28,8 @@ class LinkRepository @Inject constructor(
 
     private fun generateDownloadLink(uuid: String) {
         val text = "https://fileshare-expressapi.onrender.com/files/$uuid"
-        val homeFragment = HomeFragment()
-        homeFragment.updateText(text)
-
-
+        HomeFragment.fragmentHomeBinding.downloadLinkHomeFragment.text=text
     }
-
 
     suspend fun sendEmail(emailFrom: String, emailTo: String, fileId: String): String {
         val emailRequest = EmailRequest(emailFrom, emailTo, fileId)

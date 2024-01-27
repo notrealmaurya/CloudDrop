@@ -32,7 +32,6 @@ import com.maurya.clouddrop.database.LinkDatabase
 import com.maurya.clouddrop.databinding.FragmentHomeBinding
 import com.maurya.clouddrop.model.DataDatabase
 import com.maurya.clouddrop.repository.LinkRepository
-import com.maurya.clouddrop.util.HomeFragmentCallback
 import com.maurya.clouddrop.util.SharedPreferenceHelper
 import com.maurya.clouddrop.util.extractUuidFromLink
 import com.maurya.clouddrop.util.showToast
@@ -47,8 +46,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(),HomeFragmentCallback {
-
+class HomeFragment : Fragment() {
 
 
     private lateinit var navController: NavController
@@ -61,14 +59,15 @@ class HomeFragment : Fragment(),HomeFragmentCallback {
     @Inject
     lateinit var linkRepository: LinkRepository
 
-    private lateinit var fragmentHomeBinding: FragmentHomeBinding
 
+    companion object {
+        lateinit var fragmentHomeBinding: FragmentHomeBinding
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = fragmentHomeBinding.root
 
@@ -81,11 +80,9 @@ class HomeFragment : Fragment(),HomeFragmentCallback {
         fragmentHomeBinding.downloadLinkHomeFragment.isSelected = true
         fragmentHomeBinding.nestedScrollViewHomeFragment.isSmoothScrollingEnabled = true
 
-
         listeners()
         return view
     }
-
 
 
     private fun listeners() {
@@ -313,12 +310,6 @@ class HomeFragment : Fragment(),HomeFragmentCallback {
 
         navController = Navigation.findNavController(view)
 
-
-    }
-
-    override fun updateText(text: String) {
-
-        fragmentHomeBinding.downloadLinkHomeFragment.text=text
 
     }
 
