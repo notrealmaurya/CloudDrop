@@ -16,12 +16,6 @@
 
 
 
-    <!--    SearchViewStyle-->
-    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="android:textCursorDrawable">@drawable/cursor</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
 
     <!--    Bottom Dialog-->
     <style name="ThemeOverlay.App.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
@@ -30,18 +24,6 @@
 
     <style name="ShoppingList.BottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="backgroundTint">@android:color/transparent</item>
-    </style>
-
-    <!--NextPreviousRipple-->
-    <style name="next_previous_ripple">
-        <item name="android:background">@drawable/mode_light_bg_next_previous_ripple</item>
-    </style>
-
-
-
-    <!-- StatusBarSearchLayoutStyle-->
-    <style name="StatusBarSearchLayoutStyle">
-        <item name="android:background">@drawable/mode_light_bg_toolbar</item>
     </style>
 
 
@@ -54,12 +36,6 @@
     <!-- BottomBarLayoutStyle-->
     <style name="BottomBarLayoutStyle">
         <item name="android:background">@color/statusBarLight</item>
-    </style>
-
-
-    <!--    AddTask-->
-    <style name="AddTaskStyle">
-        <item name="android:background">@drawable/bg_light</item>
     </style>
 
 

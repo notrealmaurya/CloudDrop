@@ -15,12 +15,6 @@
     </style>
 
 
-    <!--    SearchViewStyle-->
-    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="android:textCursorDrawable">@drawable/cursor</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
 
     <!--    Bottom Dialog-->
     <style name="ThemeOverlay.App.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
@@ -29,12 +23,6 @@
 
     <style name="ShoppingList.BottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="backgroundTint">@android:color/transparent</item>
-    </style>
-
-
-    <!-- StatusBarSearchLayoutStyle-->
-    <style name="StatusBarSearchLayoutStyle">
-        <item name="android:background">@drawable/mode_dark_bg_toolbar</item>
     </style>
 
 
@@ -47,11 +35,6 @@
     <!-- BottomBarLayoutStyle-->
     <style name="BottomBarLayoutStyle">
         <item name="android:background">@color/light_black</item>
-    </style>
-
-    <!--    AddTask-->
-    <style name="AddTaskStyle">
-        <item name="android:background">@drawable/bg_dark</item>
     </style>
 
 
