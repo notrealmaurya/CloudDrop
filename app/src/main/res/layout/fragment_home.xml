@@ -61,7 +61,6 @@
                 android:orientation="vertical"
                 app:cardCornerRadius="30dp">
 
-
                 <FrameLayout
                     android:id="@+id/uploadedFileLayoutHomeFragment"
                     android:layout_width="match_parent"
@@ -74,11 +73,11 @@
 
 
                     <ImageView
-                        android:layout_width="100dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:padding="5dp"
-                        android:src="@drawable/icon_uploaded_file" />
+                        android:src="@drawable/icon_file" />
 
                     <ImageView
                         android:id="@+id/cancelUploadedFile"
@@ -179,7 +178,8 @@
                         android:layout_marginVertical="5dp"
                         android:indeterminate="false"
                         android:max="100"
-                        android:progress="1" />
+                        android:progressTint="@color/red"
+                        />
 
                     <TextView
                         android:id="@+id/downloadLinkHomeFragment"

@@ -232,38 +232,36 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                linkRepository.uploadFile(selectedFile)
-                fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility =
-                    View.VISIBLE
-                fragmentHomeBinding.UploadingDownloadLinkText.text = "Download Link :"
-                fragmentHomeBinding.seekBarHomeFragment.visibility = View.GONE
-                fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.VISIBLE
-                fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
-                fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.GONE
-                fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
-                fragmentHomeBinding.emailLayoutHomeFragment.visibility = View.VISIBLE
 
-                showToast(requireContext(), "File uploaded successfully")
+                linkRepository.uploadFile(selectedFile, object : LinkRepository.UploadCallback {
+                    override fun onProgressUpdate(progress: Int) {
+                        fragmentHomeBinding.seekBarHomeFragment.progress = progress
+                    }
 
-                val currentTimeMillis = System.currentTimeMillis()
-                val currentDateTime = Date(currentTimeMillis)
-                val linkSave =
-                    DataDatabase(
-                        selectedFile.name,
-                        fragmentHomeBinding.downloadLinkHomeFragment.text.toString(),
-                        currentDateTime.time
-                    )
+                    override fun onUploadComplete(downloadLink: String) {
+                        fragmentHomeBinding.UploadingDownloadLinkText.text = "Download Link :"
+                        fragmentHomeBinding.downloadLinkHomeFragment.text = downloadLink
+                        fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.GONE
+                        fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
 
-                GlobalScope.launch {
-                    database.linkDao().insert(linkSave)
-                }
+
+                        showToast(requireContext(), "File uploaded successfully")
+                        val currentTimeMillis = System.currentTimeMillis()
+                        val currentDateTime = Date(currentTimeMillis)
+                        val linkSave =
+                            DataDatabase(
+                                selectedFile.name,
+                                fragmentHomeBinding.downloadLinkHomeFragment.text.toString(),
+                                currentDateTime.time
+                            )
+                        GlobalScope.launch {
+                            database.linkDao().insert(linkSave)
+                        }
+                    }
+                })
 
             } catch (e: Exception) {
                 Log.d("MyLogHome", e.message.toString())
-                fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.GONE
-                fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.GONE
-                fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.VISIBLE
-                fragmentHomeBinding.emailLayoutHomeFragment.visibility = View.GONE
 
                 showToast(requireContext(), "Error uploading file: ${e.message}")
             }

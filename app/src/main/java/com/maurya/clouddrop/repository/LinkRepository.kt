@@ -1,8 +1,8 @@
 package com.maurya.clouddrop.repository
 
 import com.maurya.clouddrop.api.LinksAPI
-import com.maurya.clouddrop.fragments.HomeFragment
 import com.maurya.clouddrop.model.EmailRequest
+import com.maurya.clouddrop.util.ProgressRequestBody
 import com.maurya.clouddrop.util.extractUuidFromLink
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -14,21 +14,32 @@ import javax.inject.Inject
 class LinkRepository @Inject constructor(
     private var linksAPI: LinksAPI
 ) {
+    interface UploadCallback {
+        fun onProgressUpdate(progress: Int)
+        fun onUploadComplete(downloadLink: String)
+    }
 
-
-    suspend fun uploadFile(file: File) {
+    suspend fun uploadFile(file: File, callback: UploadCallback) {
         val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
         val body = MultipartBody.Part.createFormData("myfile", file.name, requestFile)
-        val response = linksAPI.uploadFile(body)
+
+        val progressRequestBody = ProgressRequestBody(requestFile) { progress ->
+            callback.onProgressUpdate(progress)
+        }
+
+        val progressParam = MultipartBody.Part.createFormData("progress", "paramValue", progressRequestBody)
+
+        val response = linksAPI.uploadFile(body, progressParam)
+
         val link = response.body()?.file.orEmpty()
         val uuid = extractUuidFromLink(link)
-        generateDownloadLink(uuid)
+        generateDownloadLink(uuid, callback)
     }
 
 
-    private fun generateDownloadLink(uuid: String) {
+    private fun generateDownloadLink(uuid: String, callback: UploadCallback) {
         val text = "https://fileshare-expressapi.onrender.com/files/$uuid"
-        HomeFragment.fragmentHomeBinding.downloadLinkHomeFragment.text=text
+        callback.onUploadComplete(text)
     }
 
     suspend fun sendEmail(emailFrom: String, emailTo: String, fileId: String): String {
@@ -36,6 +47,4 @@ class LinkRepository @Inject constructor(
         val response = linksAPI.sendEmail(emailRequest)
         return response.body()?.uuid.orEmpty()
     }
-
-
 }

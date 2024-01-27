@@ -2,6 +2,7 @@ package com.maurya.clouddrop.api
 
 import com.maurya.clouddrop.model.EmailRequest
 import com.maurya.clouddrop.model.UploadResponse
+import com.maurya.clouddrop.util.ProgressRequestBody
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -13,7 +14,8 @@ interface LinksAPI {
 
     @Multipart
     @POST("files/upload")
-    suspend fun uploadFile(@Part file: MultipartBody.Part): Response<UploadResponse>
+    suspend fun uploadFile(@Part file: MultipartBody.Part,
+                           @Part param: MultipartBody.Part): Response<UploadResponse>
 
 
     @POST("files/upload/send")
