@@ -20,24 +20,6 @@
     <color name="light_green_A200">#76EAA5</color>
     <color name="brown_500">#729857</color>
 
-
-    <integer-array name="randomBookmarkIconColors">
-        <item>@color/red</item>
-        <item>@color/purple_500</item>
-        <item>@color/indigo_500</item>
-        <item>@color/light_blue_500</item>
-        <item>@color/deep_orange_500</item>
-        <item>@color/orange_500</item>
-        <item>@color/yellow_500</item>
-        <item>@color/light_green_500</item>
-        <item>@color/green_500</item>
-        <item>@color/teal_500</item>
-        <item>@color/amber_500</item>
-        <item>@color/light_green_A200</item>
-        <item>@color/brown_500</item>
-    </integer-array>
-
-
     <!--    Light Mode-->
 
     <color name="statusBarDark">#202930</color>
