@@ -1,8 +1,7 @@
-package com.maurya.clouddrop.repository
+package com.maurya.clouddrop.database
 
 import android.util.Log
 import com.maurya.clouddrop.api.LinksAPI
-import com.maurya.clouddrop.model.EmailRequest
 import com.maurya.clouddrop.util.ProgressRequestBody
 import com.maurya.clouddrop.util.extractUuidFromLink
 import okhttp3.MultipartBody

@@ -1,6 +1,5 @@
-package com.maurya.clouddrop.di
+package com.maurya.clouddrop.api
 
-import com.maurya.clouddrop.api.LinksAPI
 import com.maurya.clouddrop.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides

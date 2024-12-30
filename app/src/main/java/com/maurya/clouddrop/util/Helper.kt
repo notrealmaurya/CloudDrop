@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.maurya.clouddrop.database.AdapterLinks
 import java.io.File
 import java.io.IOException
@@ -75,4 +77,10 @@ fun uriToFile(context: Context, uri: Uri, fileName: String): File {
 fun extractUuidFromLink(link: String): String {
     val parts = link.split("/")
     return parts.last()
+}
+
+
+fun showFragment(supportFragmentManager: FragmentManager, fragment: Fragment, container: Int) {
+    supportFragmentManager.beginTransaction().setReorderingAllowed(true)
+        .replace(container, fragment).addToBackStack(null).commit()
 }

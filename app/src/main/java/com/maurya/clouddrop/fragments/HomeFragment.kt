@@ -1,48 +1,60 @@
 package com.maurya.clouddrop.fragments
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.text.InputType
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.appcompat.widget.AppCompatButton
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.room.Room
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
+import com.maurya.clouddrop.MainActivity
 import com.maurya.clouddrop.R
-import com.maurya.clouddrop.database.LinkDatabase
+import com.maurya.clouddrop.database.LinkDataClass
 import com.maurya.clouddrop.databinding.FragmentHomeBinding
-import com.maurya.clouddrop.model.DataDatabase
-import com.maurya.clouddrop.repository.LinkRepository
+import com.maurya.clouddrop.database.LinkRepository
+import com.maurya.clouddrop.database.LinkRepositoryForSavingInDB
 import com.maurya.clouddrop.util.SharedPreferenceHelper
 import com.maurya.clouddrop.util.extractUuidFromLink
+import com.maurya.clouddrop.util.showFragment
 import com.maurya.clouddrop.util.showToast
 import com.maurya.clouddrop.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
-import java.lang.ref.WeakReference
 import java.util.Date
+import java.util.UUID
 import javax.inject.Inject
 
 
@@ -50,8 +62,6 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
 
-    private lateinit var navController: NavController
-    private lateinit var database: LinkDatabase
     private val themeList = arrayOf("Light Mode", "Dark Mode", "Auto")
 
     @Inject
@@ -70,30 +80,48 @@ class HomeFragment : Fragment() {
     ): View {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = fragmentHomeBinding.root
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         sharedPreferencesHelper = SharedPreferenceHelper((requireContext()))
-
-        database = Room.databaseBuilder(
-            requireContext(), LinkDatabase::class.java, "linkRecords"
-        ).build()
 
         fragmentHomeBinding.downloadLinkHomeFragment.isSelected = true
         fragmentHomeBinding.nestedScrollViewHomeFragment.isSmoothScrollingEnabled = true
 
         listeners()
-        return view
     }
-
 
     private fun listeners() {
 
+//        val crashButton = Button(this)
+//        crashButton.text = "Test Crash"
+//        crashButton.setOnClickListener {
+//            throw RuntimeException("Test Crash") /
+//        }
+
+        val mainActivity = activity as? MainActivity
+        val activityMainBinding = mainActivity?.binding
+
+        activityMainBinding?.let { binding ->
+            binding.navView.visibility = View.VISIBLE
+            fragmentHomeBinding.menuHomeFragment.setOnClickListener {
+                binding.MainDrawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
+
         fragmentHomeBinding.manageYourLinksFileHomeFragment.setOnClickListener {
-            navController.navigate(R.id.action_homeFragment_to_linkFragment)
+            showFragment(
+                requireActivity().supportFragmentManager,
+                LinkFragment(),
+                R.id.container
+            )
         }
 
         fragmentHomeBinding.uploadFileLayoutHomeFragment.setOnClickListener {
             getContentLauncher.launch("*/*")
-
         }
 
         fragmentHomeBinding.downloadLinkHomeFragment.setOnClickListener {
@@ -197,9 +225,47 @@ class HomeFragment : Fragment() {
 
             about.setOnClickListener {
                 popupWindow.dismiss()
-                val customDialogFragment = AboutDialogFragment()
-                customDialogFragment.show(childFragmentManager, "CustomDialogFragment")
+                val builder = AlertDialog.Builder(requireContext())
+                val addView = layoutInflater.inflate(R.layout.about_dialog, null)
+                builder.setView(addView)
+
+                val addDialog = builder.create()
+
+                val closeButton = addView.findViewById<Button>(R.id.about_dialog_thankyou_button)
+                closeButton.setOnClickListener {
+                    addDialog.dismiss()
+                }
+
+                // Set up the TextView with clickable text
+                val textView = addView.findViewById<TextView>(R.id.spannableTextView_Dialog)
+                val spannableString = SpannableString("If you'd like to share your thoughts or provide Feedback, please feel free to do so. Your input is valuable, and I'd appreciate hearing from you.❤\uFE0F\"\n ")
+
+                val clickableSpan = object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        val websiteUrl = "https://forms.gle/4gC2XzHDCaio7hUh8"
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl))
+                        startActivity(intent)
+                    }
+                }
+
+                spannableString.setSpan(
+                    clickableSpan,
+                    48, 56,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                val blueColor = Color.BLUE
+                spannableString.setSpan(
+                    ForegroundColorSpan(blueColor),
+                    48, 56,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                textView.text = spannableString
+                textView.movementMethod = LinkMovementMethod.getInstance()
+
+                addDialog.show()
             }
+
 
             exit.setOnClickListener {
                 popupWindow.dismiss()
@@ -227,6 +293,7 @@ class HomeFragment : Fragment() {
 
     }
 
+
     private fun handleFileUploadAndLinkGeneration(selectedFile: File) {
 
         fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.VISIBLE
@@ -253,19 +320,15 @@ class HomeFragment : Fragment() {
                         fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.GONE
                         fragmentHomeBinding.emailLayoutHomeFragment.visibility = View.VISIBLE
 
-
-                        val currentTimeMillis = System.currentTimeMillis()
-                        val currentDateTime = Date(currentTimeMillis)
-                        val linkSave =
-                            DataDatabase(
-                                selectedFile.name,
-                                fragmentHomeBinding.downloadLinkHomeFragment.text.toString(),
-                                currentDateTime.time
-                            )
-                        GlobalScope.launch {
-                            database.linkDao().insert(linkSave)
+                        lifecycleScope.launch {
+                            val linkSave =
+                                LinkDataClass(
+                                    selectedFile.name,
+                                    fragmentHomeBinding.downloadLinkHomeFragment.text.toString(),
+                                    Date(System.currentTimeMillis()).time
+                                )
+                            LinkRepositoryForSavingInDB.saveSingleDBLink(linkSave)
                         }
-
                         showToast(requireContext(), "File uploaded successfully")
                     }
 
@@ -315,14 +378,6 @@ class HomeFragment : Fragment() {
             }
         }
         return result ?: "unknown_file"
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        navController = Navigation.findNavController(view)
-
-
     }
 
 

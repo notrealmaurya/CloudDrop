@@ -1,8 +1,7 @@
 package com.maurya.clouddrop.api
 
-import com.maurya.clouddrop.model.EmailRequest
-import com.maurya.clouddrop.model.UploadResponse
-import com.maurya.clouddrop.util.ProgressRequestBody
+import com.maurya.clouddrop.database.EmailRequest
+import com.maurya.clouddrop.database.UploadResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body

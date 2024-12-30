@@ -37,4 +37,7 @@
 
     <color name="StatusBarColour">@color/statusBarLight</color>
 
+    <color name="black">#202020</color>
+    <color name="darkBlack">#000000</color>
+    <color name="rippleColor">#A3A3A3</color>
 </resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/nav_feedback"
+            android:title="Feedback" />
+
+<!--        android:icon="@drawable/icon_feedback_nav"-->
+<!--        android:icon="@drawable/icon_edit_content"-->
+<!--        android:icon="@drawable/icon_transaction"-->
+<!--        android:icon="@drawable/icon_seva_request"-->
+
+        <item
+            android:id="@+id/nav_suggestEdit"
+            android:title="Suggest Edit" />
+
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/icon_about"
+            android:title="About" />
+
+
+
+    </group>
+
+
+</menu>

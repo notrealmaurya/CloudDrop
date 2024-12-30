@@ -12,28 +12,39 @@
         android:id="@+id/topLayout"
         style="@style/StatusBarLayoutStyle"
         android:layout_width="match_parent"
-        android:layout_height="135dp"
+        android:layout_height="115dp"
+        android:paddingStart="10dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="20dp"
         android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/menuHome1Fragment"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_ripplefactor"
+            android:clickable="true"
+            android:padding="6dp"
+            android:src="@drawable/icon_menu"
+            app:tint="@color/ImageViewAndTextViewColour" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:fontFamily="@font/font_statusbar"
+            android:fontFamily="@font/font_link"
             android:gravity="center"
             android:text="Cloud Drop"
             android:textAllCaps="false"
             android:textSize="40sp" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/menuHomeFragment"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="30dp"
             android:background="@drawable/bg_ripplefactor"
             android:padding="5dp"
             android:src="@drawable/icon_user" />
@@ -178,8 +189,7 @@
                         android:layout_marginVertical="5dp"
                         android:indeterminate="false"
                         android:max="100"
-                        android:progressTint="@color/red"
-                        />
+                        android:progressTint="@color/red" />
 
                     <TextView
                         android:id="@+id/downloadLinkHomeFragment"
@@ -289,8 +299,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/emailLayoutHomeFragment"
-                android:layout_marginHorizontal="30dp"
                 android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="30dp"
                 android:layout_marginVertical="40dp"
                 app:cardCornerRadius="15dp">
 
