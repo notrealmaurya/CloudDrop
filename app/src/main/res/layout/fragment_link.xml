@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LayoutStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/LayoutStyle"
     tools:context=".fragments.LinkFragment">
 
     <LinearLayout
@@ -60,7 +60,6 @@
         android:textSize="15sp"
         app:drawableStartCompat="@drawable/icon_warning" />
 
-
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/emptyRecyclerViewLinkFragment"
         android:layout_width="wrap_content"
@@ -69,35 +68,18 @@
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="40dp"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:lottie_autoPlay="true"
         app:lottie_fileName="empty_view.json"
-        app:lottie_loop="true"
-        android:visibility="gone"
-        />
+        app:lottie_loop="true" />
 
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewLinksFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/midLayout">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="70dp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewLinksFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                tools:listitem="@layout/link_item" />
-
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/midLayout"
+        android:paddingVertical="20dp"
+        tools:listitem="@layout/link_item" />
 
 
 </RelativeLayout>

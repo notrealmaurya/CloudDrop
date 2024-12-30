@@ -61,7 +61,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-
     private val themeList = arrayOf("Light Mode", "Dark Mode", "Auto")
 
     @Inject
@@ -73,6 +72,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var fragmentHomeBinding: FragmentHomeBinding
 
+    private val MAX_FILE_SIZE = 20 * 1024 * 1024 // 20MB in bytes
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,11 +96,9 @@ class HomeFragment : Fragment() {
 
     private fun listeners() {
 
-//        val crashButton = Button(this)
-//        crashButton.text = "Test Crash"
-//        crashButton.setOnClickListener {
-//            throw RuntimeException("Test Crash") /
-//        }
+        fragmentHomeBinding.menuHome1Fragment.setOnClickListener {
+            throw RuntimeException("Test Crash")
+        }
 
         val mainActivity = activity as? MainActivity
         val activityMainBinding = mainActivity?.binding
@@ -160,7 +158,6 @@ class HomeFragment : Fragment() {
         }
 
         fragmentHomeBinding.menuHomeFragment.setOnClickListener {
-
             val inflater =
                 requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val popupView = inflater.inflate(R.layout.menu_layout, null)
@@ -238,7 +235,8 @@ class HomeFragment : Fragment() {
 
                 // Set up the TextView with clickable text
                 val textView = addView.findViewById<TextView>(R.id.spannableTextView_Dialog)
-                val spannableString = SpannableString("If you'd like to share your thoughts or provide Feedback, please feel free to do so. Your input is valuable, and I'd appreciate hearing from you.❤\uFE0F\"\n ")
+                val spannableString =
+                    SpannableString("If you'd like to share your thoughts or provide Feedback, please feel free to do so. Your input is valuable, and I'd appreciate hearing from you.❤\uFE0F\"\n ")
 
                 val clickableSpan = object : ClickableSpan() {
                     override fun onClick(widget: View) {
@@ -293,32 +291,49 @@ class HomeFragment : Fragment() {
 
     }
 
+    private val getContentLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                val fileName = getFileNameFromUri(uri)
+                val selectedFile = uriToFile(requireContext(), uri, fileName)
+                if (selectedFile.length() <= MAX_FILE_SIZE) {
+                    handleFileUploadAndLinkGeneration(selectedFile)
+                } else {
+                    showToast(requireContext(), "File Size should be less than 20MB")
+                }
+            }
+        }
 
     private fun handleFileUploadAndLinkGeneration(selectedFile: File) {
 
-        fragmentHomeBinding.uploadingProgressLayoutFileHomeFragment.visibility = View.VISIBLE
-        fragmentHomeBinding.seekBarHomeFragment.visibility = View.VISIBLE
-        fragmentHomeBinding.downloadLinkHomeFragment.text = ""
-        fragmentHomeBinding.UploadingDownloadLinkText.text = "Uploading"
-
+        fragmentHomeBinding.apply {
+            uploadingProgressLayoutFileHomeFragment.visibility = View.VISIBLE
+            seekBarHomeFragment.visibility = View.VISIBLE
+            downloadLinkHomeFragment.text = ""
+            UploadingDownloadLinkText.text = "Uploading"
+            emailLayoutHomeFragment.visibility = View.GONE
+        }
 
         lifecycleScope.launch {
             try {
                 linkRepository.uploadFile(selectedFile, object : LinkRepository.UploadCallback {
+
                     override fun onProgressUpdate(progress: Int) {
                         fragmentHomeBinding.seekBarHomeFragment.progress = progress
                     }
 
                     override fun onUploadComplete(downloadLink: String) {
-                        fragmentHomeBinding.UploadingDownloadLinkText.text = "Download Link :"
-                        fragmentHomeBinding.downloadLinkHomeFragment.text = downloadLink
 
-                        fragmentHomeBinding.seekBarHomeFragment.visibility = View.GONE
-                        fragmentHomeBinding.downloadLinkHomeFragment.visibility = View.VISIBLE
-                        fragmentHomeBinding.linkShareButtonHomeFragment.visibility = View.VISIBLE
-                        fragmentHomeBinding.uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
-                        fragmentHomeBinding.uploadFileLayoutHomeFragment.visibility = View.GONE
-                        fragmentHomeBinding.emailLayoutHomeFragment.visibility = View.VISIBLE
+                        fragmentHomeBinding.apply {
+                            UploadingDownloadLinkText.text = "Download Link :"
+                            downloadLinkHomeFragment.text = downloadLink
+                            seekBarHomeFragment.visibility = View.GONE
+                            downloadLinkHomeFragment.visibility = View.VISIBLE
+                            linkShareButtonHomeFragment.visibility = View.VISIBLE
+                            uploadedFileLayoutHomeFragment.visibility = View.VISIBLE
+                            uploadFileLayoutHomeFragment.visibility = View.GONE
+                            emailLayoutHomeFragment.visibility = View.VISIBLE
+                        }
 
                         lifecycleScope.launch {
                             val linkSave =
@@ -345,20 +360,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
-    private val getContentLauncher =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            uri?.let {
-                val fileName = getFileNameFromUri(uri)
-                val selectedFile = uriToFile(requireContext(), uri, fileName)
-                if (selectedFile.length() <= 104857600) {
-                    handleFileUploadAndLinkGeneration(selectedFile)
-                } else {
-                    showToast(requireContext(), "File Size should be less than 100MB")
-                }
-            }
-        }
-
     @SuppressLint("Range")
     private fun getFileNameFromUri(uri: Uri): String {
         var result: String? = null
@@ -370,15 +371,11 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
         if (result == null) {
-            result = uri.path
-            val cut = result?.lastIndexOf('/')
-            if (cut != -1) {
-                result = result?.substring(cut!! + 1)
-            }
+            result = uri.path?.substringAfterLast('/')
         }
         return result ?: "unknown_file"
     }
-
 
 }
