@@ -93,22 +93,13 @@ object LinkRepositoryForSavingInDB {
 
     private val dbTempleDao = ApplicationClass.appDatabase.linkDao()
 
-    suspend fun saveAllDBLink(link: List<LinkDataClass>) {
-        try {
-            dbTempleDao.insertAll(link)
-            Log.d(Tags.DBTempleRepo, "Links saved successfully: ${link.size}")
-        } catch (e: Exception) {
-            Log.e(Tags.DBTempleRepo, "Error saving temple details: ${e.message}")
-            throw e
-        }
-    }
 
     suspend fun saveSingleDBLink(link: LinkDataClass) {
         try {
             dbTempleDao.insertSingleItem(link)
-            Log.d(Tags.DBTempleRepo, "Links saved successfully: $link")
+            Log.d(Tags.DBLinkRepo, "Links saved successfully: $link")
         } catch (e: Exception) {
-            Log.e(Tags.DBTempleRepo, "Error saving temple details: ${e.message}")
+            Log.e(Tags.DBLinkRepo, "Error saving temple details: ${e.message}")
             throw e
         }
     }
@@ -116,34 +107,32 @@ object LinkRepositoryForSavingInDB {
     suspend fun getLinkFromDatabaseAsync(): List<LinkDataClass> {
         return withContext(Dispatchers.IO) {
             val data = dbTempleDao.getAllItems()
-            Log.d(Tags.DBTempleRepo, "Getting Size to fetch from API or db${data.size}")
+            Log.d(Tags.DBLinkRepo, "Getting Size to fetch from API or db${data.size}")
             data
         }
     }
 
     fun getAllDBLink(): LiveData<List<LinkDataClass>> {
         return dbTempleDao.getAllItemsLiveData().also {
-            Log.d(Tags.DBTempleRepo, "Fetching links as LiveData")
+            Log.d(Tags.DBLinkRepo, "Fetching links as LiveData")
         }
     }
 
-    // Delete all links from the database
     suspend fun deleteAllDBLinkDetails() {
         try {
             dbTempleDao.deleteAllItems()
-            Log.d(Tags.DBTempleRepo, "All link records deleted successfully.")
+            Log.d(Tags.DBLinkRepo, "All link records deleted successfully.")
         } catch (e: Exception) {
-            Log.e(Tags.DBTempleRepo, "Error deleting link records: ${e.message}")
+            Log.e(Tags.DBLinkRepo, "Error deleting link records: ${e.message}")
         }
     }
 
-    // New method to delete a single link by its ID
     suspend fun deleteSingleLink(id: Long) {
         try {
             dbTempleDao.deleteSingleItem(id)
-            Log.d(Tags.DBTempleRepo, "Link with ID $id deleted successfully.")
+            Log.d(Tags.DBLinkRepo, "Link with ID $id deleted successfully.")
         } catch (e: Exception) {
-            Log.e(Tags.DBTempleRepo, "Error deleting link with ID $id: ${e.message}")
+            Log.e(Tags.DBLinkRepo, "Error deleting link with ID $id: ${e.message}")
         }
     }
 

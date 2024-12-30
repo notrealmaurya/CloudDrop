@@ -9,11 +9,11 @@ junitVersion = "1.2.1"
 espressoCore = "3.5.1"
 appcompat = "1.7.0"
 kotlinxCoroutinesAndroidVersion = "1.8.0"
-lifecycleViewmodelKtx = "2.8.7"
+lifecycleViewmodelKtx = "2.8.6"
 lottie = "6.0.1"
 material = "1.12.0"
 activity = "1.9.3"
-constraintlayout = "2.2.0"
+constraintlayout = "2.1.4"
 retrofitVersion = "2.9.0"
 loggingInterceptor = "4.9.1"
 firebaseAuthKtx = "23.1.0"
@@ -21,8 +21,6 @@ roomRuntime = "2.6.1"
 roomKtx = "2.6.1"
 workRuntimeKtx = "2.9.1"
 firebaseCrashlytics = "19.3.0"
-googleGmsGoogleServices = "4.4.2"
-googleFirebaseCrashlytics = "3.0.2"
 minavdrawer = "1.2.2"
 
 [libraries]
@@ -60,6 +58,3 @@ minavdrawer = { module = "com.github.mindinventory:minavdrawer", version.ref = "
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-googleGmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-googleFirebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }
-

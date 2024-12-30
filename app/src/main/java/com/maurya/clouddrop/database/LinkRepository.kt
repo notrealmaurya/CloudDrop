@@ -2,6 +2,7 @@ package com.maurya.clouddrop.database
 
 import android.util.Log
 import com.maurya.clouddrop.api.LinksAPI
+import com.maurya.clouddrop.util.Constants
 import com.maurya.clouddrop.util.ProgressRequestBody
 import com.maurya.clouddrop.util.extractUuidFromLink
 import okhttp3.MultipartBody
@@ -35,8 +36,7 @@ class LinkRepository @Inject constructor(
     }
 
     private fun generateDownloadLink(uuid: String, callback: UploadCallback) {
-        val text = "https://fileshare-expressapi.onrender.com/files/$uuid"
-        callback.onUploadComplete(text)
+        callback.onUploadComplete("${Constants.BASE_URL}files/$uuid")
     }
 
     suspend fun sendEmail(emailFrom: String, emailTo: String, fileId: String): String {

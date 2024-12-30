@@ -99,7 +99,6 @@ class LinkFragment : Fragment(), OnItemClickListener {
             val allItems = LinkRepositoryForSavingInDB.getLinkFromDatabaseAsync()
             val itemsToRemove =
                 allItems.filter { currentTimeMillis - it.createdAt > twentyFourHoursInMillis }
-
             for (record in itemsToRemove) {
                 LinkRepositoryForSavingInDB.deleteSingleLink(record.id)
             }
